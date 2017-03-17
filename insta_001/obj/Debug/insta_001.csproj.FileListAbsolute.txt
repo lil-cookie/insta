@@ -44,3 +44,8 @@ c:\users\helen\documents\visual studio 2015\Projects\insta_001\insta_001\bin\Sys
 c:\users\helen\documents\visual studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.csprojResolveAssemblyReference.cache
 c:\users\helen\documents\visual studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.dll
 c:\users\helen\documents\visual studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.pdb
+C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\HtmlAgilityPack.dll
+C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\Newtonsoft.Json.dll
+C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\HtmlAgilityPack.pdb
+C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\HtmlAgilityPack.xml
+C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\Newtonsoft.Json.xml
