@@ -1,4 +1,4 @@
-﻿@model List<insta_001.Models.Comment>
+﻿@model List<insta_001.Models.Data>
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,11 +6,17 @@
 
 <h2>@ViewBag.Greeting</h2>
 
-@foreach (insta_001.Models.Comment comm in Model)
+@foreach (insta_001.Models.Data data in Model)
 {
+    <a href="@data.link" style="font-size:18px">go to post</a>
     <div style="width:100%;">
-        <div> @comm.author </div>
-        <div> @comm.text</div>
-    </div> 
+        @foreach (insta_001.Models.Comment comm in data.comments)
+        {
+            <a href="www.instagram.com/@comm.author">@comm.author</a>
+            <div> @comm.text</div>
+            <br>
+        }
+    </div>
+    <br>
     <br>
 }

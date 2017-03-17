@@ -13,10 +13,11 @@ namespace insta_001
 {
     public class Parser
     {
-        public List<Comment> Main()
+        public List<Data> Main()
         {
             string htmlStr = ReadHtmlFile(url);
             List<String> links = GetLinks(htmlStr);
+            List<Data> data = new List<Data>();
 
             List<Comment> coms = new List<Comment>();
             /* foreach (String link in links)
@@ -27,7 +28,8 @@ namespace insta_001
              }*/
             htmlStr = ReadHtmlFile(links[0]);
             coms.AddRange(GetCommentsOnePost(htmlStr));
-            return coms;
+            data.Add(new Data(links[0], coms));
+            return data;
         }
 
         private string url = "https://www.instagram.com/art.realism/";

@@ -18,7 +18,7 @@ namespace insta_001.Controllers
             //  ViewBag.Collection = new string[2,3]{ { "dsfds", "sdfds", "sfdf" }, { "sdfds", "sfdf", "sdfds" } };
 
             Parser p = new Parser();
-            List<Comment> comms = p.Main();
+            List<Data> comms = p.Main();
             return View(comms);
         }
     }
