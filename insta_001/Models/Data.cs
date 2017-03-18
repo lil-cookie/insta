@@ -7,13 +7,13 @@ namespace insta_001.Models
 {
     public partial class Data
     {
-        public Data(string link, List<Comment> comments)
+        public Data(PostInfo info, List<Comment> comments)
         {
-            this.link = link;
+            this.info = info;
             this.comments = comments;
         }
-            public string link { get; set; }
-            public List<Comment> comments { get; set; }
+        public PostInfo info { get; set; }
+        public List<Comment> comments { get; set; }
 
     }
 }

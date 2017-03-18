@@ -15,40 +15,42 @@ namespace insta_001
     {
         public List<Data> Main()
         {
-            string htmlStr = ReadHtmlFile(url);
-            List<String> links = GetLinks(htmlStr);
+            string htmlStr = ReadHtmlFile(commonUrl + username);
             List<Data> data = new List<Data>();
+            List<PostInfo> posts = GetLinks(htmlStr);
 
-            List<Comment> coms = new List<Comment>();
-            /* foreach (String link in links)
-             {
-                 Thread.Sleep(1000);
-                 htmlStr = ReadHtmlFile(link);
-                 coms.AddRange(GetCommentsOnePost(htmlStr));
-             }*/
-            htmlStr = ReadHtmlFile(links[0]);
-            coms.AddRange(GetCommentsOnePost(htmlStr));
-            data.Add(new Data(links[0], coms));
+            foreach (PostInfo post in posts)
+            {
+                Thread.Sleep(1000);
+                htmlStr = ReadHtmlFile(post.postLink);
+                List<Comment> comOnePost = GetCommentsOnePost(htmlStr);
+                data.Add(new Data(post, comOnePost));
+            }
+           // htmlStr = ReadHtmlFile(posts[0].postLink);
+           // coms.AddRange(GetCommentsOnePost(htmlStr));
+           // data.Add(new Data(posts[0], coms));
             return data;
         }
 
-        private string url = "https://www.instagram.com/art.realism/";
+        private string commonUrl = "https://www.instagram.com/";
+        private string username = "wood_cotton";
 
-        private List<String> GetLinks(String htmlString)
+        private List<PostInfo> GetLinks(String htmlString)
         {
             String json = ReadOneNode(htmlString, "//body/script[3]");
             json = json.Substring(21);
             json = json.Remove(json.Length - 1);
             //  MessageBox.Show(json);
-            List<String> hrefs = GetLinksFromJson(json);
-       /*     string message = "";
-            foreach (string hr in hrefs)
-            {
-                message += hr + "\n";
-            }
-         */   return hrefs;
+            List<PostInfo> hrefs = GetLinksFromJson(json);
+            /*     string message = "";
+                 foreach (string hr in hrefs)
+                 {
+                     message += hr + "\n";
+                 }
+              */
+            return hrefs;
         }
-        private List<String> GetLinksFromJson(string JsonNode)
+        private List<PostInfo> GetLinksFromJson(string JsonNode)
         {
             string node = null;
             try
@@ -61,22 +63,24 @@ namespace insta_001
                 jo = JObject.Parse(JsonNode);
                 node = Convert.ToString(jo.SelectToken("user.media.nodes"));
 
-                string username = Convert.ToString(jo.SelectToken("user.username"));
+                // string username = Convert.ToString(jo.SelectToken("user.username"));
 
-                List<String> hrefs = new List<string>();
+                List<PostInfo> posts = new List<PostInfo>();
                 jarr = JArray.Parse(node);
                 foreach (JObject jnode in jarr)
                 {
-                    node = Convert.ToString(jnode.SelectToken("code"));
-                    hrefs.Add(@"https://www.instagram.com/p/" + node + "/?taken-by=" + username);
+                    String postLink = Convert.ToString(jnode.SelectToken("code"));
+                    postLink = @"https://www.instagram.com/p/" + postLink + "/?taken-by=" + username;
+                    String picSrc = Convert.ToString(jnode.SelectToken("thumbnail_src"));
+                    posts.Add(new PostInfo(postLink, picSrc));
                 }
 
                 if (node == string.Empty) node = null;
-                return hrefs;
+                return posts;
             }
             catch (Exception ex)
             {
-              //  MessageBox.Show(ex.Message.ToString());
+                //  MessageBox.Show(ex.Message.ToString());
                 return null;
             }
 
@@ -113,7 +117,7 @@ namespace insta_001
                         String text = Convert.ToString(jnode.SelectToken("text"));
                         String author = Convert.ToString(jnode.SelectToken("user.username"));
                         String ctreated = Convert.ToString(jnode.SelectToken("created_at"));
-                        coms.Add(new Comment(author, text, ctreated));
+                        coms.Add(new Comment( author, text, ctreated));
                     }
                     catch (Exception e) { }
                 }
@@ -123,7 +127,7 @@ namespace insta_001
             }
             catch (Exception ex)
             {
-               // MessageBox.Show(ex.Message.ToString());
+                // MessageBox.Show(ex.Message.ToString());
                 return null;
             }
 

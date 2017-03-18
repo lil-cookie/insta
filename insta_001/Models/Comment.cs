@@ -9,10 +9,12 @@ namespace insta_001.Models
     {
         public Comment(string author, string text, string cteated)
         {
+
             this.author = author;
             this.text = text;
             this.cteated = cteated;
         }
+
         public string author { get; set; }
         public string text { get; set; }
         public string cteated { get; set; }

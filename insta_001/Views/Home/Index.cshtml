@@ -4,18 +4,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Greeting</h2>
+<style>
+    a {
+        font-size: 18px;
+    }
+
+    .imgBlock {
+        float: none;
+        width: 250px;
+        height: auto;
+    }
+
+        .imgBlock img {
+            width: inherit;
+            height: auto;
+        }
+
+    .commentBlock {
+        float: none;
+        width: 250px;
+    }
+    .post{
+        width: 510px;
+        margin:15px;
+    }
+</style>
 
 @foreach (insta_001.Models.Data data in Model)
 {
-    <a href="@data.link" style="font-size:18px">go to post</a>
-    <div style="width:100%;">
-        @foreach (insta_001.Models.Comment comm in data.comments)
-        {
-            <a href="www.instagram.com/@comm.author">@comm.author</a>
-            <div> @comm.text</div>
-            <br>
-        }
+    <div class="post col-xs-6">
+        <div class="imgBlock">
+            <img class="img-circle" src="@data.info.picSrc" />
+            <a href="@data.info.postLink">go to post</a>
+        </div>
+        <div class="commentBlock">
+            @foreach (insta_001.Models.Comment comm in data.comments)
+            {
+                <b><a href="www.instagram.com/@comm.author">@comm.author</a></b>
+                <div> @comm.text</div>
+                <br>
+            }
+        </div>
     </div>
     <br>
     <br>
