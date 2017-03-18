@@ -38,11 +38,9 @@
         display: inline;
     }
 </style>
-<ul>
 
     @foreach (insta_001.Models.Data data in Model)
     {
-        <li>
             <div class="col-xs-6 post">
                 <div class="imgBlock">
                     <a href="@data.info.postLink">
@@ -61,6 +59,4 @@
             </div>
             <br>
             <br>
-        </li>
     }
-</ul>
