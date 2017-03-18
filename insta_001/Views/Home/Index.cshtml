@@ -11,12 +11,12 @@
 
     .imgBlock {
         float: none;
-        width: 250px;
+        width: 300px;
         height: auto;
     }
 
         .imgBlock img {
-            width: inherit;
+            width: 300px;
             height: auto;
         }
 
@@ -24,29 +24,43 @@
         float: none;
         width: 250px;
     }
-    .post{
-        width: 510px;
-        margin:15px;
+
+    .post {
+        border: 1px solid #ccc;
+        vertical-align: top;
+        width: 330px;
+        margin: 10px;
+        float: left;
+        display: inline-block;
+    }
+
+    li {
+        display: inline;
     }
 </style>
+<ul>
 
-@foreach (insta_001.Models.Data data in Model)
-{
-    <div class="post col-xs-6">
-        <div class="imgBlock">
-            <img class="img-circle" src="@data.info.picSrc" />
-            <a href="https://www.instagram.com/@data.postAuthor">@data.postAuthor</a>
-            <a href="@data.info.postLink">go to post</a>
-        </div>
-        <div class="commentBlock">
-            @foreach (insta_001.Models.Comment comm in data.comments)
-            {
-                <b><a href="www.instagram.com/@comm.author">@comm.author</a></b>
-                <div> @comm.text</div>
-                <br>
-            }
-        </div>
-    </div>
-    <br>
-    <br>
-}
+    @foreach (insta_001.Models.Data data in Model)
+    {
+        <li>
+            <div class="col-xs-6 post">
+                <div class="imgBlock">
+                    <a href="@data.info.postLink">
+                        <img class="img-circle" src="@data.info.picSrc" />
+                    </a>
+                    <a href="https://www.instagram.com/@data.postAuthor">@data.postAuthor</a>
+                </div>
+                <div class="commentBlock">
+                    @foreach (insta_001.Models.Comment comm in data.comments)
+                {
+                        <b><a href="www.instagram.com/@comm.author">@comm.author</a></b>
+                        <div> @comm.text</div>
+                        <br>
+                    }
+                </div>
+            </div>
+            <br>
+            <br>
+        </li>
+    }
+</ul>
