@@ -13,35 +13,39 @@ namespace insta_001
 {
     public class Parser
     {
+        private List<String> usernames = new List<string>() { "wood_cotton", "babyfurniture1" };
+        private string commonUrl = "https://www.instagram.com/";
+      //  private string username = "wood_cotton";
+
         public List<Data> Main()
         {
-            string htmlStr = ReadHtmlFile(commonUrl + username);
             List<Data> data = new List<Data>();
-            List<PostInfo> posts = GetLinks(htmlStr);
 
-            foreach (PostInfo post in posts)
+            foreach (String username in usernames)
             {
-                Thread.Sleep(1000);
-                htmlStr = ReadHtmlFile(post.postLink);
-                List<Comment> comOnePost = GetCommentsOnePost(htmlStr);
-                data.Add(new Data(post, comOnePost));
+                string htmlStr = ReadHtmlFile(commonUrl + username);
+                List<PostInfo> posts = GetLinks(htmlStr, username);
+
+                foreach (PostInfo post in posts)
+                {
+                    Thread.Sleep(1000);
+                    htmlStr = ReadHtmlFile(post.postLink);
+                    List<Comment> comOnePost = GetCommentsOnePost(htmlStr);
+                    data.Add(new Data(username, post, comOnePost));
+                }
             }
-           // htmlStr = ReadHtmlFile(posts[0].postLink);
-           // coms.AddRange(GetCommentsOnePost(htmlStr));
-           // data.Add(new Data(posts[0], coms));
+
             return data;
         }
 
-        private string commonUrl = "https://www.instagram.com/";
-        private string username = "wood_cotton";
 
-        private List<PostInfo> GetLinks(String htmlString)
+        private List<PostInfo> GetLinks(String htmlString, String username)
         {
             String json = ReadOneNode(htmlString, "//body/script[3]");
             json = json.Substring(21);
             json = json.Remove(json.Length - 1);
             //  MessageBox.Show(json);
-            List<PostInfo> hrefs = GetLinksFromJson(json);
+            List<PostInfo> hrefs = GetLinksFromJson(json, username);
             /*     string message = "";
                  foreach (string hr in hrefs)
                  {
@@ -50,7 +54,7 @@ namespace insta_001
               */
             return hrefs;
         }
-        private List<PostInfo> GetLinksFromJson(string JsonNode)
+        private List<PostInfo> GetLinksFromJson(string JsonNode, string username)
         {
             string node = null;
             try
@@ -117,7 +121,7 @@ namespace insta_001
                         String text = Convert.ToString(jnode.SelectToken("text"));
                         String author = Convert.ToString(jnode.SelectToken("user.username"));
                         String ctreated = Convert.ToString(jnode.SelectToken("created_at"));
-                        coms.Add(new Comment( author, text, ctreated));
+                        coms.Add(new Comment(author, text, ctreated));
                     }
                     catch (Exception e) { }
                 }
