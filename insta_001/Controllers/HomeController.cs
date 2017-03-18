@@ -14,12 +14,12 @@ namespace insta_001.Controllers
         // GET: Home
         public ActionResult Index()
         {
-
             //  ViewBag.Collection = new string[2,3]{ { "dsfds", "sdfds", "sfdf" }, { "sdfds", "sfdf", "sdfds" } };
 
             Parser p = new Parser();
             List<Data> comms = p.Main();
-            return View(comms);
+            IEnumerable<Data> data = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.createdAt);//.OrderBy(ev => ev.postAuthor)
+            return View(data);
         }
     }
 
