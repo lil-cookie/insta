@@ -7,16 +7,16 @@ namespace insta_001.Models
 {
     public partial  class Comment
     {
-        public Comment(string author, string text, string cteated)
+        public Comment(string author, string text, DateTime created)
         {
 
             this.author = author;
             this.text = text;
-            this.cteated = cteated;
+            this.created = created;
         }
 
         public string author { get; set; }
         public string text { get; set; }
-        public string cteated { get; set; }
+        public DateTime created { get; set; }
     }
 }

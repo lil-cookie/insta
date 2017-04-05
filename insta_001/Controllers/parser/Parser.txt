@@ -32,12 +32,6 @@ namespace insta_001
             usersPostsHtml.ElementAt(callback.EndInvoke(result));
         }
         */
-
-        private List<String> usersPostsHtml = new List<String>();
-
-        public List<Data> Main()
-        {
-            Thread[] _workers = new Thread[usernames.Count];
             /*
             //получили html-страницы юзеров с последними 12 фото
             for (int i=0;i<_workers.Length;i++)
@@ -53,7 +47,13 @@ namespace insta_001
                 thread.Join();//синхронизация потоков
             }
            */
-           
+
+        private List<String> usersPostsHtml = new List<String>();
+
+        public List<Data> Main()
+        {
+            Thread[] _workers = new Thread[usernames.Count];
+
             for (int i = 0; i < _workers.Length; i++)
             {
                 _workers[i] = new Thread(new ParameterizedThreadStart(threadPool));
@@ -71,18 +71,18 @@ namespace insta_001
         List<Data> data = new List<Data>();
         private void threadPool(object objusername)
         {
-            String username= (String)objusername;
-            string htmlStr = ReadHtmlFile(commonUrl + username);
-            List<PostInfo> posts = GetLinks(htmlStr, username);
+             String username= (String)objusername;
+               string htmlStr = ReadHtmlFile(commonUrl + username);
+               List<PostInfo> posts = GetLinks(htmlStr, username);
 
-            foreach (PostInfo post in posts)
-            {
-                Thread.Sleep(500);
-                htmlStr = ReadHtmlFile(post.postLink);
-                List<Comment> comOnePost = GetCommentsOnePost(htmlStr);
-                data.Add(new Data(username, post, comOnePost));
-            }
-          //  return data;
+               foreach (PostInfo post in posts)
+               {
+                   Thread.Sleep(500);
+                   htmlStr = ReadHtmlFile(post.postLink);
+                   List<Comment> comOnePost = GetCommentsOnePost(htmlStr);
+                   data.Add(new Data(username, post, comOnePost));
+               }
+            //  return data;
         }
 
 
@@ -117,8 +117,8 @@ namespace insta_001
                     String postLink = Convert.ToString(jnode.SelectToken("code"));
                     postLink = @"https://www.instagram.com/p/" + postLink + "/?taken-by=" + username;
                     String picSrc = Convert.ToString(jnode.SelectToken("thumbnail_src"));
-                    String createdAt = Convert.ToString(jnode.SelectToken("date"));
-                    posts.Add(new PostInfo(postLink, picSrc, createdAt));
+                    int created = Convert.ToInt32(jnode.SelectToken("date"));
+                    posts.Add(new PostInfo(postLink, picSrc, created,username));
                 }
 
                 if (node == string.Empty) node = null;
@@ -161,7 +161,7 @@ namespace insta_001
                     {
                         String text = Convert.ToString(jnode.SelectToken("text"));
                         String author = Convert.ToString(jnode.SelectToken("user.username"));
-                        String ctreated = Convert.ToString(jnode.SelectToken("created_at"));
+                        Int32 ctreated = Convert.ToInt32(jnode.SelectToken("created_at"));
                         coms.Add(new Comment(author, text, ctreated));
                     }
                     catch (Exception e) { }

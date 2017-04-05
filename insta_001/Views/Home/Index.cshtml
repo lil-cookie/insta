@@ -1,4 +1,4 @@
-﻿@model IEnumerable<insta_001.Models.Data>
+﻿@model List<insta_001.Models.Data>
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,24 +39,26 @@
     }
 </style>
 
-    @foreach (insta_001.Models.Data data in Model)
-    {
-            <div class="col-xs-6 post">
-                <div class="imgBlock">
-                    <a href="@data.info.postLink">
-                        <img class="img-circle" src="@data.info.picSrc" />
-                    </a>
-                    <a href="https://www.instagram.com/@data.postAuthor">@data.postAuthor</a>
-                </div>
-                <div class="commentBlock">
-                    @foreach (insta_001.Models.Comment comm in data.comments)
+@foreach (insta_001.Models.Data data in Model)
+{
+    <div class="col-xs-6 post">
+        <div class="imgBlock">
+            <a href="@data.info.postLink">
+                <img class="img-circle" src="@data.info.picSrc" />
+            </a>
+            <a href="https://www.instagram.com/@data.info.postAuthor">@data.info.postAuthor</a>
+        </div>
+        <div class="commentBlock">
+            @foreach (insta_001.Models.Comment comm in data.comments)
                 {
-                        <b><a href="www.instagram.com/@comm.author">@comm.author</a></b>
-                        <div> @comm.text</div>
-                        <br>
-                    }
-                </div>
-            </div>
+                <b><a href="www.instagram.com/@comm.author">@comm.author</a></b>
+                <br>
+                <span style="font-size: 10px;"> @comm.created </span>
+                <div> @comm.text</div>
+                <br>
+            }
+        </div>
+    </div>
             <br>
             <br>
-    }
+}

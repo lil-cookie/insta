@@ -9,13 +9,13 @@ namespace insta_001.Models
     {
         public Data(String postAuthor, PostInfo info, List<Comment> comments)
         {
-            this.postAuthor = postAuthor;
+
             this.info = info;
             this.comments = comments;
         }
         public PostInfo info { get; set; }
         public List<Comment> comments { get; set; }
-        public String postAuthor { get; set; }
+
 
     }
    

@@ -7,14 +7,16 @@ namespace insta_001.Models
 {
     public class PostInfo
     {
-        public PostInfo(string postLink, string picSrc, String createdAt)
+        public PostInfo(string postLink, string picSrc, DateTime created, string postAuthor)
         {
-            this.createdAt = createdAt;
+            this.created = created;
             this.postLink = postLink;
             this.picSrc = picSrc;
+            this.postAuthor = postAuthor;
         }
         public string postLink { get; set; }
         public string picSrc { get; set; }
-        public String createdAt { get; set; }
+        public DateTime created { get; set; }
+        public String postAuthor { get; set; }
     }
 }
