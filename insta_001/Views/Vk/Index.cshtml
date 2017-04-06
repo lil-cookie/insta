@@ -7,7 +7,7 @@
     .post {
         border: 1px solid #ccc;
         vertical-align: top;
-        width: 160px;
+        width: 300px;
         margin: 10px;
         float: left;
         display: inline-block;
@@ -19,9 +19,14 @@
 
 
     .imgBlock {
-        object-fit: fill;
+           float: left;
         height: 130px;
         width: 130px;
+    }
+
+    .commBlock {
+        float: right;
+        width: 100px;
     }
 </style>
 
@@ -30,22 +35,22 @@
 
 @foreach (insta_001.Models.VkModel data in Model)
 {<div class="col-xs-12 post">
-        <a href="@data.postHref">
-            <img class="imgBlock img-circle" src="@data.postPhotoHref" />
-        </a>
-        <br>
-        <a href="@data.authorHref">
-            @data.authorName
-        </a>
-        <br>
-        <div class="date">
-            @data.created
-        </div>
-        <div>
-            @data.comment
-        </div>
-    </div>
-    <br>
-    <br>
+     <div class="imgBlock">
+         <a href="@data.postHref">
+             <img class="img-circle" src="@data.postPhotoHref" />
+            </a>
+         </div>
 
+         <div class="commBlock">
+             <a href="@data.authorHref">
+                 @data.authorName
+             </a>
+             <br />
+             <span class="date">
+                 @data.created
+             </span>
+             <br />
+             @data.comment
+         </div>
+     </div>
 }
