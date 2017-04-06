@@ -5,9 +5,9 @@ using System.Web;
 
 namespace insta_001.Models
 {
-    public class PostInfo
+    public class InstPostModel
     {
-        public PostInfo(string postLink, string picSrc, DateTime created, string postAuthor)
+        public InstPostModel(string postLink, string picSrc, DateTime created, string postAuthor)
         {
             this.created = created;
             this.postLink = postLink;

@@ -5,9 +5,9 @@ using System.Web;
 
 namespace insta_001.Models
 {
-    public partial  class Comment
+    public partial  class InstCommModel
     {
-        public Comment(string author, string text, DateTime created)
+        public InstCommModel(string author, string text, DateTime created)
         {
 
             this.author = author;

@@ -130,6 +130,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Parser\Parser.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -141,16 +142,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\GrabOneUserPosts.cs" />
-    <Compile Include="Controllers\Parser.cs" />
-    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Controllers\InstController.cs" />
+    <Compile Include="Controllers\VkController.cs" />
+    <Compile Include="Models\InstCommModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Content Include="Controllers\parser\Parser.txt" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Data.cs" />
-    <Compile Include="Models\PostInfo.cs" />
+    <Compile Include="Models\InstModel.cs" />
+    <Compile Include="Models\InstPostModel.cs" />
+    <Compile Include="Models\VkModel.cs" />
+    <Compile Include="Parser\InstParser.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\VkParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +169,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Inst\Index.cshtml" />
+    <Content Include="Views\Vk\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

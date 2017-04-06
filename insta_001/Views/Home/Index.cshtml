@@ -1,64 +1,9 @@
-﻿@model List<insta_001.Models.Data>
-@{
+﻿@{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    a {
-        font-size: 18px;
-    }
-
-    .imgBlock {
-        float: none;
-        width: 300px;
-        height: auto;
-    }
-
-        .imgBlock img {
-            width: 300px;
-            height: auto;
-        }
-
-    .commentBlock {
-        float: none;
-        width: 250px;
-    }
-
-    .post {
-        border: 1px solid #ccc;
-        vertical-align: top;
-        width: 330px;
-        margin: 10px;
-        float: left;
-        display: inline-block;
-    }
-
-    li {
-        display: inline;
-    }
-</style>
-
-@foreach (insta_001.Models.Data data in Model)
-{
-    <div class="col-xs-6 post">
-        <div class="imgBlock">
-            <a href="@data.info.postLink">
-                <img class="img-circle" src="@data.info.picSrc" />
-            </a>
-            <a href="https://www.instagram.com/@data.info.postAuthor">@data.info.postAuthor</a>
-        </div>
-        <div class="commentBlock">
-            @foreach (insta_001.Models.Comment comm in data.comments)
-                {
-                <b><a href="www.instagram.com/@comm.author">@comm.author</a></b>
-                <br>
-                <span style="font-size: 10px;"> @comm.created </span>
-                <div> @comm.text</div>
-                <br>
-            }
-        </div>
-    </div>
-            <br>
-            <br>
-}
+Здрасте)) <br>
+В меню переход к постам с инсты или к постам ВК.<br>
+Выбирай че надо и юзай.<br>
+Го.

@@ -1,4 +1,5 @@
 ﻿using insta_001.Models;
+using insta_001.Parser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,15 @@ using System.Web.Mvc;
 
 namespace insta_001.Controllers
 {
-    public class HomeController : Controller
+    public class VkController : Controller
     {
-        // GET: Home
+        // GET: Vk
         public ActionResult Index()
         {
-            return View();
+            VkParser v = new VkParser();
+            List<VkModel> vk = v.Main();
+
+            return View(vk);
         }
     }
 }

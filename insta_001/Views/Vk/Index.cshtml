@@ -1,0 +1,51 @@
+﻿@model List<insta_001.Models.VkModel>
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .post {
+        border: 1px solid #ccc;
+        vertical-align: top;
+        width: 160px;
+        margin: 10px;
+        float: left;
+        display: inline-block;
+    }
+
+    .date {
+        font-size: 10px;
+    }
+
+
+    .imgBlock {
+        object-fit: fill;
+        height: 130px;
+        width: 130px;
+    }
+</style>
+
+
+
+
+@foreach (insta_001.Models.VkModel data in Model)
+{<div class="col-xs-12 post">
+        <a href="@data.postHref">
+            <img class="imgBlock img-circle" src="@data.postPhotoHref" />
+        </a>
+        <br>
+        <a href="@data.authorHref">
+            @data.authorName
+        </a>
+        <br>
+        <div class="date">
+            @data.created
+        </div>
+        <div>
+            @data.comment
+        </div>
+    </div>
+    <br>
+    <br>
+
+}
