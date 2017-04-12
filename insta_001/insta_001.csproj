@@ -130,7 +130,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Parser\Parser.txt" />
+    <Content Include="Parser\urls.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -143,6 +143,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\InstController.cs" />
+    <Compile Include="Controllers\SeoController.cs" />
     <Compile Include="Controllers\VkController.cs" />
     <Compile Include="Models\InstCommModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Models\VkModel.cs" />
     <Compile Include="Parser\InstParser.cs" />
     <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\SeoQuery.cs" />
     <Compile Include="Parser\VkParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -171,6 +173,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Inst\Index.cshtml" />
     <Content Include="Views\Vk\Index.cshtml" />
+    <Content Include="Views\Seo\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
