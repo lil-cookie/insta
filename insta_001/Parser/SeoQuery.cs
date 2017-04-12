@@ -8,7 +8,7 @@ using System.Web;
 
 namespace insta_001.Parser
 {
-    public class SeoQuery: Parser
+    public class SeoQuery : Parser
     {
         private List<string> redirectUrls = new List<string>();
 
@@ -20,10 +20,10 @@ namespace insta_001.Parser
 
             foreach (var url in redirectUrls)
             {
-                //ReadHtmlFile(url, Encoding.UTF8);
-                System.Diagnostics.Process.Start(url);
-                // WebRequest wrGETURL = WebRequest.Create(url);
-                // wrGETURL.GetResponse();
+                ReadHtmlFile(url, Encoding.UTF8);
+                //System.Diagnostics.Process.Start(url);
+                WebRequest wrGETURL = WebRequest.Create(url);
+                wrGETURL.GetResponse();
             }
 
         }

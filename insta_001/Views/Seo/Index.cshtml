@@ -1,8 +1,11 @@
-﻿
+﻿@model List<string>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Спасибо.</h2>
+@foreach (string url in Model)
+{
+    <a href="@url">ссылка</a>
+    <br>
+}
 
