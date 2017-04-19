@@ -81,11 +81,16 @@ namespace insta_001.Parser
 
         private List<InstCommModel> GetCommentsOnePost(String htmlString)
         {
-            String json = ReadOneNode(htmlString, "//body/script[3]");
-            json = json.Substring(21);
-            json = json.Remove(json.Length - 1);
-            List<InstCommModel> coms = GetCommentsFromJson(json);
-            return coms;
+            if (htmlString != "")
+            {
+                String json = ReadOneNode(htmlString, "//body/script[3]");
+
+                json = json.Substring(21);
+                json = json.Remove(json.Length - 1);
+                List<InstCommModel> coms = GetCommentsFromJson(json);
+                return coms;
+            }
+            else return null; 
         }
         private List<InstCommModel> GetCommentsFromJson(string JsonNode)
         {
