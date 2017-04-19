@@ -130,7 +130,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Parser\urls.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -155,7 +154,6 @@
     <Compile Include="Models\VkModel.cs" />
     <Compile Include="Parser\InstParser.cs" />
     <Compile Include="Parser\Parser.cs" />
-    <Compile Include="Parser\SeoQuery.cs" />
     <Compile Include="Parser\VkParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

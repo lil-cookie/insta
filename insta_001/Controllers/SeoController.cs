@@ -12,10 +12,7 @@ namespace insta_001.Controllers
         // GET: Seo
         public ActionResult Index()
         {
-            var path = System.Web.Hosting.HostingEnvironment.MapPath(@"~/Parser/urls.txt");
-            List<string> redirectUrls =  System.IO.File.ReadLines(path).ToList();
-
-            return View(redirectUrls);
+            return View();
         }
     }
 }

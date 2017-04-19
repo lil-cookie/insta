@@ -46,28 +46,33 @@ namespace insta_001.Parser
 
 
             List<InstModel> data = new List<InstModel>();
-            string[] htmlPosts = new string[posts.Count];
-            List<InstCommModel>[] comOnePost = new List<InstCommModel>[posts.Count];
 
-            Thread[] _workers = new Thread[posts.Count];
-
-            for (int i = 0; i < _workers.Length; i++)
+            if (posts != null)
             {
-                int copy = i;
-                _workers[i] = new Thread(() =>
+                string[] htmlPosts = new string[posts.Count];
+                List<InstCommModel>[] comOnePost = new List<InstCommModel>[posts.Count];
+
+                Thread[] _workers = new Thread[posts.Count];
+
+                for (int i = 0; i < _workers.Length; i++)
                 {
-                    //считываем html-страницы постов 1 пользователя
-                    htmlPosts[copy] = ReadHtmlFile(posts[copy].postLink, Encoding.UTF8);
-                    //считываем с 1 html-страницы поста все комментарии
-                    comOnePost[copy] = GetCommentsOnePost(htmlPosts[copy]);
-                    data.Add(new InstModel(username, posts[copy], comOnePost[copy]));
-                });
-                _workers[i].Start();
-                Thread.Sleep(150);
-            }
-            foreach (Thread thread in _workers)
-            {
-                thread.Join();//синхронизация потоков
+                    int copy = i;
+                    _workers[i] = new Thread(() =>
+                    {
+                        //считываем html-страницы постов 1 пользователя
+                        htmlPosts[copy] = ReadHtmlFile(posts[copy].postLink, Encoding.UTF8);
+                        //считываем с 1 html-страницы поста все комментарии
+                        comOnePost[copy] = GetCommentsOnePost(htmlPosts[copy]);
+                        data.Add(new InstModel(username, posts[copy], comOnePost[copy]));
+                    });
+                    _workers[i].Start();
+                    Thread.Sleep(150);
+                }
+                foreach (Thread thread in _workers)
+                {
+                    thread.Join();//синхронизация потоков
+                }
+
             }
 
             return data;
@@ -93,18 +98,18 @@ namespace insta_001.Parser
                 JArray jarr = JArray.Parse(node);
                 JsonNode = jarr.First.ToString();
                 jo = JObject.Parse(JsonNode);
-                node = Convert.ToString(jo.SelectToken("media.comments.nodes"));
 
-                List<InstCommModel> coms = new List<InstCommModel>();
+                node = Convert.ToString(jarr.First.SelectToken("graphql.shortcode_media.edge_media_to_comment.edges"));
                 jarr = JArray.Parse(node);
+                List<InstCommModel> coms = new List<InstCommModel>();
+
                 foreach (JObject jnode in jarr)
                 {
                     try
                     {
-                        String text = Convert.ToString(jnode.SelectToken("text"));
-                        String author = Convert.ToString(jnode.SelectToken("user.username"));
-                        //   Int32 ctreated = Convert.ToInt32(jnode.SelectToken("created_at"));
-                        Int32 unixTime = Convert.ToInt32(jnode.SelectToken("created_at"));
+                        String text = Convert.ToString(jnode.SelectToken("node.text"));
+                        String author = Convert.ToString(jnode.SelectToken("node.owner.username"));
+                        Int32 unixTime = Convert.ToInt32(jnode.SelectToken("node.created_at"));
                         DateTime created = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
                         coms.Add(new InstCommModel(author, text, created));
                     }
@@ -142,20 +147,22 @@ namespace insta_001.Parser
                 JsonNode = jarr.First.ToString();
                 jo = JObject.Parse(JsonNode);
                 node = Convert.ToString(jo.SelectToken("user.media.nodes"));
-
                 // string username = Convert.ToString(jo.SelectToken("user.username"));
 
                 List<InstPostModel> posts = new List<InstPostModel>();
                 jarr = JArray.Parse(node);
                 foreach (JObject jnode in jarr)
                 {
-                    String postLink = Convert.ToString(jnode.SelectToken("code"));
-                    postLink = @"https://www.instagram.com/p/" + postLink + "/?taken-by=" + username;
-                    String picSrc = Convert.ToString(jnode.SelectToken("thumbnail_src"));
-                    // int created = Convert.ToInt32(jnode.SelectToken("date"));
-                    Int32 unixTime = Convert.ToInt32(jnode.SelectToken("date"));
-                    DateTime created = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
-                    posts.Add(new InstPostModel(postLink, picSrc, created, username));
+                    JsonNode = Convert.ToString(jnode.SelectToken("comments"));
+                    if (JsonNode != "{\r\n  \"count\": 0\r\n}")
+                    {
+                        String postLink = Convert.ToString(jnode.SelectToken("code"));
+                        postLink = @"https://www.instagram.com/p/" + postLink + "/?taken-by=" + username;
+                        String picSrc = Convert.ToString(jnode.SelectToken("thumbnail_src"));
+                        Int32 unixTime = Convert.ToInt32(jnode.SelectToken("date"));
+                        DateTime created = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
+                        posts.Add(new InstPostModel(postLink, picSrc, created, username));
+                    }
                 }
 
                 if (node == string.Empty) node = null;
