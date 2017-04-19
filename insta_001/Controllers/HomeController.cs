@@ -1,8 +1,5 @@
 ﻿using insta_001.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using insta_001.Parser;
 using System.Web.Mvc;
 
 namespace insta_001.Controllers
@@ -14,5 +11,14 @@ namespace insta_001.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Index(InstUserModel user)
+        {
+            FileWorker fw = new FileWorker();
+            fw.WriteFile(user.username.Trim());
+            return View();
+        }
+
     }
 }

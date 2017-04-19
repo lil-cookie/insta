@@ -1,14 +1,16 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 
-namespace insta_001.Parser
+namespace insta_001.Parser  
 {
-    public class Parser
+    public class Parser: FileWorker
     {
         //считать html-стриницу из интернета и вернуть строку 
         protected static String ReadHtmlFile(object objurl, Encoding enc)
@@ -82,5 +84,8 @@ namespace insta_001.Parser
             // Возвращаем результат работы парсера
             return str;
         }
+
+
+
     }
 }

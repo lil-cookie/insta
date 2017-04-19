@@ -7,7 +7,7 @@ namespace insta_001.Models
 {
     public partial class InstModel
     {
-        public InstModel(String postAuthor, InstPostModel info, List<InstCommModel> comments)
+        public InstModel(InstPostModel info, List<InstCommModel> comments)
         {
 
             this.info = info;

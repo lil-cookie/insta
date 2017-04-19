@@ -13,12 +13,15 @@ namespace insta_001.Parser
 {
     public class InstParser : Parser
     {
-        private List<String> usernames = new List<string>() { "wood_cotton", "babyfurniture1", "sp.baby_name",
-        "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};
+        private string[] usernames; //new string[] { "wood_cotton" }; 
+                                    /*{ "wood_cotton", "babyfurniture1", "sp.baby_name",
+                                "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
 
         public List<InstModel> Main()
         {
-            Thread[] _workers = new Thread[usernames.Count];
+            usernames = ReadInstUsernames();
+
+            Thread[] _workers = new Thread[usernames.Length];
             List<InstModel> data = new List<InstModel>();
             for (int i = 0; i < _workers.Length; i++)
             {
@@ -40,146 +43,51 @@ namespace insta_001.Parser
         public List<InstModel> threadPool(object objusername)
         {
             String username = (String)objusername;
-            string htmlStr = ReadHtmlFile(commonUrl + username, Encoding.UTF8);
-            List<InstPostModel> posts = GetLinks(htmlStr, username);
+            string htmlStr = ReadHtmlFile(commonUrl + username + @"/media/", Encoding.UTF8);
             Thread.Sleep(150);
-
-
             List<InstModel> data = new List<InstModel>();
-
-            if (posts != null)
+            if (htmlStr != "")
             {
-                string[] htmlPosts = new string[posts.Count];
-                List<InstCommModel>[] comOnePost = new List<InstCommModel>[posts.Count];
+                string node = null;
+                string JsonNode = null;
 
-                Thread[] _workers = new Thread[posts.Count];
-
-                for (int i = 0; i < _workers.Length; i++)
-                {
-                    int copy = i;
-                    _workers[i] = new Thread(() =>
-                    {
-                        //считываем html-страницы постов 1 пользователя
-                        htmlPosts[copy] = ReadHtmlFile(posts[copy].postLink, Encoding.UTF8);
-                        //считываем с 1 html-страницы поста все комментарии
-                        comOnePost[copy] = GetCommentsOnePost(htmlPosts[copy]);
-                        data.Add(new InstModel(username, posts[copy], comOnePost[copy]));
-                    });
-                    _workers[i].Start();
-                    Thread.Sleep(150);
-                }
-                foreach (Thread thread in _workers)
-                {
-                    thread.Join();//синхронизация потоков
-                }
-
-            }
-
-            return data;
-        }
-
-
-        private List<InstCommModel> GetCommentsOnePost(String htmlString)
-        {
-            if (htmlString != "")
-            {
-                String json = ReadOneNode(htmlString, "//body/script[3]");
-
-                json = json.Substring(21);
-                json = json.Remove(json.Length - 1);
-                List<InstCommModel> coms = GetCommentsFromJson(json);
-                return coms;
-            }
-            else return null; 
-        }
-        private List<InstCommModel> GetCommentsFromJson(string JsonNode)
-        {
-            string node = null;
-            try
-            {
-                JObject jo = JObject.Parse(JsonNode);
-                node = Convert.ToString(jo.SelectToken("entry_data.PostPage"));
+                JObject jo = JObject.Parse(htmlStr);
+                node = Convert.ToString(jo.SelectToken("items"));
 
                 JArray jarr = JArray.Parse(node);
-                JsonNode = jarr.First.ToString();
-                jo = JObject.Parse(JsonNode);
-
-                node = Convert.ToString(jarr.First.SelectToken("graphql.shortcode_media.edge_media_to_comment.edges"));
-                jarr = JArray.Parse(node);
-                List<InstCommModel> coms = new List<InstCommModel>();
-
                 foreach (JObject jnode in jarr)
                 {
-                    try
-                    {
-                        String text = Convert.ToString(jnode.SelectToken("node.text"));
-                        String author = Convert.ToString(jnode.SelectToken("node.owner.username"));
-                        Int32 unixTime = Convert.ToInt32(jnode.SelectToken("node.created_at"));
-                        DateTime created = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
-                        coms.Add(new InstCommModel(author, text, created));
-                    }
-                    catch (Exception e) { }
-                }
-
-                if (node == string.Empty) return null;
-                return coms;
-            }
-            catch (Exception ex)
-            {
-                // MessageBox.Show(ex.Message.ToString());
-                return null;
-            }
-        }
-
-        private List<InstPostModel> GetLinks(String htmlStr, String username)
-        {
-            String json = ReadOneNode(htmlStr, "//body/script[3]");
-            json = json.Substring(21);
-            json = json.Remove(json.Length - 1);
-            List<InstPostModel> hrefs = GetLinksFromJson(json, username);
-            return hrefs;
-        }
-
-        private List<InstPostModel> GetLinksFromJson(string JsonNode, string username)
-        {
-            string node = null;
-            try
-            {
-                JObject jo = JObject.Parse(JsonNode);
-                node = Convert.ToString(jo.SelectToken("entry_data.ProfilePage"));
-
-                JArray jarr = JArray.Parse(node);
-                JsonNode = jarr.First.ToString();
-                jo = JObject.Parse(JsonNode);
-                node = Convert.ToString(jo.SelectToken("user.media.nodes"));
-                // string username = Convert.ToString(jo.SelectToken("user.username"));
-
-                List<InstPostModel> posts = new List<InstPostModel>();
-                jarr = JArray.Parse(node);
-                foreach (JObject jnode in jarr)
-                {
-                    JsonNode = Convert.ToString(jnode.SelectToken("comments"));
-                    if (JsonNode != "{\r\n  \"count\": 0\r\n}")
+                    string numComments = Convert.ToString(jnode.SelectToken("comments.count"));
+                    if (numComments != "0")
                     {
                         String postLink = Convert.ToString(jnode.SelectToken("code"));
                         postLink = @"https://www.instagram.com/p/" + postLink + "/?taken-by=" + username;
-                        String picSrc = Convert.ToString(jnode.SelectToken("thumbnail_src"));
-                        Int32 unixTime = Convert.ToInt32(jnode.SelectToken("date"));
+                        String picSrc = Convert.ToString(jnode.SelectToken("images.standard_resolution.url"));
+                        Int32 unixTime = Convert.ToInt32(jnode.SelectToken("created_time"));
                         DateTime created = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
-                        posts.Add(new InstPostModel(postLink, picSrc, created, username));
+                        InstPostModel post = new InstPostModel(postLink, picSrc, created, username);
+
+                        string nodecomm = Convert.ToString(jnode.SelectToken("comments.data"));
+                        JArray jarrcomm = JArray.Parse(nodecomm);
+
+                        List<InstCommModel> coms = new List<InstCommModel>();
+                        foreach (JObject jc in jarrcomm)
+                        {
+                            try
+                            {
+                                String text = Convert.ToString(jc.SelectToken("text"));
+                                String author = Convert.ToString(jc.SelectToken("from.full_name"));
+                                Int32 unixTimeComm = Convert.ToInt32(jc.SelectToken("created_time"));
+                                DateTime createdComm = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTimeComm);
+                                coms.Add(new InstCommModel(author, text, createdComm));
+                            }
+                            catch (Exception e) { }
+                        }
+                        data.Add(new InstModel(post, coms));
                     }
                 }
-
-                if (node == string.Empty) node = null;
-                return posts;
             }
-            catch (Exception ex)
-            {
-                //  MessageBox.Show(ex.Message.ToString());
-                return null;
-            }
-
+            return data;
         }
-
     }
 }

@@ -130,6 +130,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Parser\instUsernames.txt" />
+    <Content Include="Parser\old.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -151,7 +153,9 @@
     </Compile>
     <Compile Include="Models\InstModel.cs" />
     <Compile Include="Models\InstPostModel.cs" />
+    <Compile Include="Models\InstUserModel.cs" />
     <Compile Include="Models\VkModel.cs" />
+    <Compile Include="Parser\FileWorker.cs" />
     <Compile Include="Parser\InstParser.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\VkParser.cs" />

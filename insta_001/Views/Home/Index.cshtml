@@ -1,4 +1,12 @@
-﻿@{
+﻿@model insta_001.Models.InstUserModel
+@{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+You can add insagram users.
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <p>Username : @Html.TextBoxFor(x => x.username) </p>
+    <input type="submit" value="Submit" />
 }
