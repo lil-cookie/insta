@@ -130,7 +130,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Resource Include="Files\instUsernames.txt" />
+    <Resource Include="Parser\instUsernames.txt" />
     <Resource Include="Files\old.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
