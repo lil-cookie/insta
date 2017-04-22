@@ -1,6 +1,7 @@
 ﻿using insta_001.Models;
 using insta_001.Parser;
 using System.Web.Mvc;
+using System;
 
 namespace insta_001.Controllers
 {
@@ -9,6 +10,8 @@ namespace insta_001.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            FileWorker fw = new FileWorker();
+            ViewBag.users = fw.ReadInstUsernames();
             return View();
         }
 
@@ -16,9 +19,12 @@ namespace insta_001.Controllers
         public ActionResult Index(InstUserModel user)
         {
             FileWorker fw = new FileWorker();
-            fw.WriteFile(user.username.Trim());
+            bool upd = fw.WriteFile(user.username.Trim());
+            ViewBag.upd = upd;
+            ViewBag.username = user.username;
+            fw = new FileWorker();
+            ViewBag.users = fw.ReadInstUsernames();
             return View();
         }
-
     }
 }

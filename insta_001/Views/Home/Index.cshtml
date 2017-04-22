@@ -3,10 +3,32 @@
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-You can add insagram users.
+
+<p>You observe next instagram accounts:</p>
+@{
+    foreach (string user in @ViewBag.users)
+    {
+        <b> @user </b><br />
+    }
+}
+
+<br />
+
+
+You can add/delete insagram user. Put username below.
 
 @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-{
+            {
     <p>Username : @Html.TextBoxFor(x => x.username) </p>
-    <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" />
+}
+
+@{
+    if (@ViewBag.username != null)
+    {
+        if (@ViewBag.upd == false)
+        { <p>User <b>@ViewBag.username</b> deleted. </p>}
+        else
+        { <p>User <b>@ViewBag.username</b> added. </p>}
+    }
 }

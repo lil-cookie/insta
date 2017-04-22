@@ -9,12 +9,29 @@ namespace insta_001.Parser
 {
     public class FileWorker
     {
-        public void WriteFile(string str)
+        public bool WriteFile(string str)
         {
             string path = HostingEnvironment.MapPath(@"~\Parser\instUsernames.txt");
-            StreamWriter sw = new StreamWriter(path, true);
-            sw.Write(str + " ");
-            sw.Close();
+
+            if (File.Exists(path))
+            {
+                string text = File.ReadAllText(path);
+                string[] usernames = text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
+                StreamWriter sw;
+                if (text.Contains(str.Trim()))
+                {
+                    sw = new StreamWriter(path, false);
+                    sw.Write(text.Replace(str.Trim(), ""));
+                    sw.Close();
+                    return false;
+                }
+
+                sw = new StreamWriter(path, true);
+                sw.Write(str + " ");
+                sw.Close();
+                return true;
+            }
+            return true;
         }
         public string[] ReadInstUsernames()
         {
