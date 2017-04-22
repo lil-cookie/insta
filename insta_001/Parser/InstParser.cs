@@ -75,7 +75,7 @@ namespace insta_001.Parser
                             try
                             {
                                 String text = Convert.ToString(jc.SelectToken("text"));
-                                String author = Convert.ToString(jc.SelectToken("from.full_name"));
+                                String author = Convert.ToString(jc.SelectToken("from.username"));
                                 Int32 unixTimeComm = Convert.ToInt32(jc.SelectToken("created_time"));
                                 DateTime createdComm = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTimeComm);
                                 coms.Add(new InstCommModel(author, text, createdComm));
