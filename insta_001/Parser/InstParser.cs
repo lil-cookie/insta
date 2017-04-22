@@ -1,41 +1,40 @@
-﻿using HtmlAgilityPack;
-using insta_001.Models;
+﻿using insta_001.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading;
-using System.Web;
 
 namespace insta_001.Parser
 {
     public class InstParser : Parser
     {
-        private string[] usernames; /* = new string[] "wood_cotton", "babyfurniture1", "sp.baby_name","mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/  
-        /*new string[] { "wood_cotton", "babyfurniture1", "sp.baby_name", "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
-       //wood_cotton babyfurniture1 sp.baby_name mojjevelovaya_busina mozhevelinki mirbusinok fonerkin
+        private string[] usernames; /* = new string[] "wood_cotton", "babyfurniture1", "sp.baby_name","mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
+                                    /*new string[] { "wood_cotton", "babyfurniture1", "sp.baby_name", "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
+                                    //wood_cotton babyfurniture1 sp.baby_name mojjevelovaya_busina mozhevelinki mirbusinok fonerkin
 
         public List<InstModel> Main()
         {
             usernames = ReadInstUsernames();
-
-            Thread[] _workers = new Thread[usernames.Length];
-            List<InstModel> data = new List<InstModel>();
-            for (int i = 0; i < _workers.Length; i++)
+            if (usernames != null)
             {
-                int copy = i;
-                _workers[i] = new Thread(() => { data.AddRange(threadPool(usernames[copy])); });
-                _workers[i].Name = string.Format("Thread {0} :", i + 1);
-                _workers[i].Start();
-            }
-            foreach (Thread thread in _workers)
-            {
-                thread.Join();//синхронизация потоков
-            }
+                Thread[] _workers = new Thread[usernames.Length];
+                List<InstModel> data = new List<InstModel>();
+                for (int i = 0; i < _workers.Length; i++)
+                {
+                    int copy = i;
+                    _workers[i] = new Thread(() => { data.AddRange(threadPool(usernames[copy])); });
+                    _workers[i].Name = string.Format("Thread {0} :", i + 1);
+                    _workers[i].Start();
+                }
+                foreach (Thread thread in _workers)
+                {
+                    thread.Join();//синхронизация потоков
+                }
 
-            return data;
+                return data;
+            }
+            else return null;
         }
 
         private string commonUrl = "https://www.instagram.com/";

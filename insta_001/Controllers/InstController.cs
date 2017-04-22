@@ -13,29 +13,31 @@ namespace insta_001.Controllers
         // GET: Inst
         public ActionResult Index()
         {
-            //  ViewBag.Collection = new string[2,3]{ { "dsfds", "sdfds", "sfdf" }, { "sdfds", "sfdf", "sdfds" } };
-
             InstParser p = new InstParser();
             List<InstModel> comms = p.Main();
-            comms = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.created).ToList();
-            // IEnumerable<Data> data = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.createdAt);//.OrderBy(ev => ev.postAuthor)
-
-            //  comms.Remove(comms.Where(ev => ev.comments.Count == 0));// = (List<Data>)comms.Where);
-
-            for (int i = 0; i < comms.Count(); i++)
+            if (comms != null)
             {
-                for (int j = 0; j < comms.Count() - i - 1; j++)
+                comms = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.created).ToList();
+                // IEnumerable<Data> data = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.createdAt);//.OrderBy(ev => ev.postAuthor)
+
+                //  comms.Remove(comms.Where(ev => ev.comments.Count == 0));// = (List<Data>)comms.Where);
+
+                for (int i = 0; i < comms.Count(); i++)
                 {
-                    if (comms[j].comments.Last().created < comms[j + 1].comments.Last().created)
+                    for (int j = 0; j < comms.Count() - i - 1; j++)
                     {
-                        var temp = comms[j];
-                        comms[j] = comms[j + 1];
-                        comms[j + 1] = temp;
+                        if (comms[j].comments.Last().created < comms[j + 1].comments.Last().created)
+                        {
+                            var temp = comms[j];
+                            comms[j] = comms[j + 1];
+                            comms[j + 1] = temp;
+                        }
                     }
                 }
-            }
 
-            return View(comms);
+                return View(comms);
+            }
+           else return View(new List<InstModel>());
         }
     }
 }
