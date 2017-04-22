@@ -15,6 +15,7 @@ namespace insta_001.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Index(InstUserModel user)
         {
