@@ -11,7 +11,7 @@ namespace insta_001.Parser
     {
         public bool WriteFile(string str)
         {
-            string path = HostingEnvironment.MapPath(@"~\Parser\instUsernames.txt");
+            string path = HostingEnvironment.MapPath(@"~\Files\instUsernames.txt");
 
             if (File.Exists(path))
             {
@@ -37,7 +37,7 @@ namespace insta_001.Parser
         }
         public string[] ReadInstUsernames()
         {
-            string path = HostingEnvironment.MapPath(@"~\Parser\instUsernames.txt");
+            string path = HostingEnvironment.MapPath(@"~\Files\instUsernames.txt");
             string[] usernames = { "tt", "j" };
             if (File.Exists(path))
             {
