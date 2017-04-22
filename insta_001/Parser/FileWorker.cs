@@ -17,18 +17,19 @@ namespace insta_001.Parser
             {
                 string text = File.ReadAllText(path);
                 string[] usernames = text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
-                StreamWriter sw;
+              //  StreamWriter sw;
                 if (text.Contains(str.Trim()))
                 {
-                    sw = new StreamWriter(path, false);
-                    sw.Write(text.Replace(str.Trim(), ""));
-                    sw.Close();
+                    File.WriteAllText(path, text.Replace(str.Trim(), ""));
+                    //sw = new StreamWriter(path, false);
+                    //sw.Write(text.Replace(str.Trim(), ""));
+                   // sw.Close();
                     return false;
                 }
-
-                sw = new StreamWriter(path, true);
-                sw.Write(str + " ");
-                sw.Close();
+                File.WriteAllText(path, text+ str + " ");
+               // sw = new StreamWriter(path, true);
+                //sw.Write(str + " ");
+               // sw.Close();
                 return true;
             }
             return true;
