@@ -37,7 +37,7 @@ namespace insta_001.Parser
         public string[] ReadInstUsernames()
         {
             string path = HostingEnvironment.MapPath(@"~\Files\instUsernames.txt");
-            string[] usernames = null;
+            string[] usernames = { "tt","j"};
             if (File.Exists(path))
             {
                 usernames = File.ReadAllText(path).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
