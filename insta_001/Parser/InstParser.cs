@@ -13,10 +13,9 @@ namespace insta_001.Parser
 {
     public class InstParser : Parser
     {
-        private string[] usernames; //new string[] { "wood_cotton" }; 
-                                    /*{ "wood_cotton", "babyfurniture1", "sp.baby_name",
-                                "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
-                                    //wood_cotton babyfurniture1 sp.baby_name mojjevelovaya_busina mozhevelinki mirbusinok fonerkin
+        private string[] usernames; /* = new string[] "wood_cotton", "babyfurniture1", "sp.baby_name","mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/  
+        /*new string[] { "wood_cotton", "babyfurniture1", "sp.baby_name", "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
+       //wood_cotton babyfurniture1 sp.baby_name mojjevelovaya_busina mozhevelinki mirbusinok fonerkin
 
         public List<InstModel> Main()
         {

@@ -18,9 +18,9 @@ namespace insta_001.Parser
                 string text = File.ReadAllText(path);
                 string[] usernames = text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
                 // StreamWriter sw;
-
+                File.SetAttributes(path, FileAttributes.Normal);
                 if (text.Contains(str.Trim()))
-                {
+                { 
                     File.WriteAllText(path, text.Replace(str.Trim(), ""));
                     //   sw = new StreamWriter(path, false);
                     //   sw.Write(text.Replace(str.Trim(), ""));
