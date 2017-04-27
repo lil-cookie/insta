@@ -55,3 +55,5 @@ C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Deb
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.dll
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.pdb
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.csprojResolveAssemblyReference.cache
+C:\Users\Helen\documents\visual studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.Properties.Resources.resources
+C:\Users\Helen\documents\visual studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.csproj.GenerateResource.Cache
