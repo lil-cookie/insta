@@ -1,5 +1,4 @@
-﻿@model insta_001.Models.InstUserModel
-@{
+﻿@{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,21 +13,24 @@
 
 <br />
 
-
 You can add/delete insagram user. Put username below.
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
-            {
-    <p>Username : @Html.TextBoxFor(x => x.username) </p>
-                <input type="submit" value="Submit" />
+@using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "result"}))
+{
+    string user = "";
+    <p> Username : </p>   @Html.EditorFor(x => user)
+    <input type="submit" value="Submit" />
 }
 
+
+
 @{
-    if (@ViewBag.username != null)
-    {
-        if (@ViewBag.upd == false)
-        { <p>User <b>@ViewBag.username</b> deleted. </p>}
-        else
-        { <p>User <b>@ViewBag.username</b> added. </p>}
-    }
-}
+       if (@ViewBag.username != null)
+       {
+           if (@ViewBag.upd == false)
+           { <p>User <b>@ViewBag.username</b> deleted. </p>}
+           else
+           { <p>User <b>@ViewBag.username</b> added. </p>}
+       }
+   }
+

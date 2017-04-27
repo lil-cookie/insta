@@ -13,9 +13,17 @@ namespace insta_001.Parser
                                     /*new string[] { "wood_cotton", "babyfurniture1", "sp.baby_name", "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
                                     //wood_cotton babyfurniture1 sp.baby_name mojjevelovaya_busina mozhevelinki mirbusinok fonerkin
 
-        public List<InstModel> Main()
+        public List<InstModel> Main(bool isMyAcc = false)
         {
-            usernames = ReadInstUsernames();
+            if (isMyAcc == true)
+            {
+                usernames = new string[] { "eco_bysinki" };
+            }
+            else
+            {
+                usernames = ReadInstUsernames();
+            }
+
             if (usernames != null)
             {
                 Thread[] _workers = new Thread[usernames.Length];
@@ -35,6 +43,8 @@ namespace insta_001.Parser
                 return data;
             }
             else return null;
+
+
         }
 
         private string commonUrl = "https://www.instagram.com/";
@@ -45,10 +55,9 @@ namespace insta_001.Parser
             string htmlStr = ReadHtmlFile(commonUrl + username + @"/media/", Encoding.UTF8);
             Thread.Sleep(150);
             List<InstModel> data = new List<InstModel>();
-            if (htmlStr != "")
+            if (htmlStr != null)
             {
                 string node = null;
-                string JsonNode = null;
 
                 JObject jo = JObject.Parse(htmlStr);
                 node = Convert.ToString(jo.SelectToken("items"));

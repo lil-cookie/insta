@@ -9,9 +9,9 @@ namespace insta_001.Parser
 {
     public class FileWorker
     {
-        public bool WriteFile(string str)
+        public bool WriteFile(string str, string filepath = @"~\Files\instUsernames.txt")
         {
-            string path = HostingEnvironment.MapPath(@"~\Files\instUsernames.txt");
+            string path = HostingEnvironment.MapPath(filepath);
 
             if (File.Exists(path))
             {
@@ -28,9 +28,9 @@ namespace insta_001.Parser
             }
             return true;
         }
-        public string[] ReadInstUsernames()
+        public string[] ReadInstUsernames(string filepath = @"~\Files\instUsernames.txt")
         {
-            string path = HostingEnvironment.MapPath(@"~\Files\instUsernames.txt");
+            string path = HostingEnvironment.MapPath(filepath);
             string[] usernames = null;
             if (File.Exists(path))
             {

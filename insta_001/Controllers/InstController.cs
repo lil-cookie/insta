@@ -11,15 +11,23 @@ namespace insta_001.Controllers
     public class InstController : Controller
     {
         // GET: Inst
-        public ActionResult Index()
+        public ActionResult Index(bool isMyAcc = false)
         {
             InstParser p = new InstParser();
-            List<InstModel> comms = p.Main();
+            List<InstModel> comms = new List<InstModel>();
+            if (isMyAcc == true)
+            {
+                comms = p.Main(true);
+            }
+            else
+            {
+                comms = p.Main();
+            }
+
             if (comms != null)
             {
                 comms = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.created).ToList();
                 // IEnumerable<Data> data = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.createdAt);//.OrderBy(ev => ev.postAuthor)
-
                 //  comms.Remove(comms.Where(ev => ev.comments.Count == 0));// = (List<Data>)comms.Where);
 
                 for (int i = 0; i < comms.Count(); i++)
@@ -34,10 +42,11 @@ namespace insta_001.Controllers
                         }
                     }
                 }
-
                 return View(comms);
             }
-           else return View(new List<InstModel>());
+            else return View(new List<InstModel>());
         }
+
+
     }
 }

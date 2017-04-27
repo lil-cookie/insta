@@ -15,14 +15,14 @@ namespace insta_001.Controllers
             return View();
         }
 
-        [AllowAnonymous]
+
         [HttpPost]
-        public ActionResult Index(InstUserModel user)
+        public ActionResult Index(string user)
         {
             FileWorker fw = new FileWorker();
-            bool upd = fw.WriteFile(user.username.Trim());
+            bool upd = fw.WriteFile(user.Trim());
             ViewBag.upd = upd;
-            ViewBag.username = user.username;
+            ViewBag.username = user;
             fw = new FileWorker();
             ViewBag.users = fw.ReadInstUsernames();
             return View();
