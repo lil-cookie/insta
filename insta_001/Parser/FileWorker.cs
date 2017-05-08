@@ -10,37 +10,39 @@ namespace insta_001.Parser
 {
     public class FileWorker
     {
-        private static Mutex mut = new Mutex();
+   //     private static Mutex mut = new Mutex();
         public bool? WriteFile(string str, string filepath = @"~\Files\instUsernames.txt")
         {
             string path = HostingEnvironment.MapPath(filepath);
-            if (mut.WaitOne(1000))
-            {
+            //if (mut.WaitOne(1000))
+           // {
                 try
                 {
                     if (File.Exists(path))
                     {
                         string text = File.ReadAllText(path);
-                        string[] usernames = text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
+                        List<string> usernames = text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray().ToList();
                         File.SetAttributes(path, FileAttributes.Normal);
-                        if (text.Contains(str))
+                        if (usernames.Contains(str))
                         {
-                            File.WriteAllText(path, text.Replace(str + " ", ""));
-                            mut.ReleaseMutex();
+                            usernames.Remove(str);
+                            File.WriteAllText(path, String.Join("\r\n", usernames));
+                            //mut.ReleaseMutex();
                             return false;
                         }
-                        File.WriteAllText(path, text + str + " ");
-                        mut.ReleaseMutex();
+                        usernames.Add(str);
+                        File.WriteAllText(path, String.Join("\r\n", usernames));
+                      //  mut.ReleaseMutex();
                         return true;
                     }
                 }
                 catch (Exception e)
                 {
-                    mut.ReleaseMutex();
+                    //mut.ReleaseMutex();
                     return null;
                 }
-            }
-            mut.ReleaseMutex();
+         //   }
+           // mut.ReleaseMutex();
             return true;
         }
 
@@ -50,7 +52,7 @@ namespace insta_001.Parser
             string[] usernames = null;
             if (File.Exists(path))
             {
-                usernames = File.ReadAllText(path).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
+                usernames = File.ReadAllText(path).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
             }
             return usernames;
         }

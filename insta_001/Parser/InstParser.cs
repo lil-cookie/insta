@@ -26,33 +26,62 @@ namespace insta_001.Parser
 
             if (usernames != null)
             {
-                Thread[] _workers = new Thread[usernames.Length];
-                List<InstModel> data = new List<InstModel>();
-                for (int i = 0; i < _workers.Length; i++)
-                {
-                    int copy = i;
-                    _workers[i] = new Thread(() => { data.AddRange(threadPool(usernames[copy])); });
-                    _workers[i].Name = string.Format("Thread {0} :", i + 1);
-                    _workers[i].Start();
-                }
-                foreach (Thread thread in _workers)
-                {
-                    thread.Join();//синхронизация потоков
-                }
-
+                List<InstModel> data = CreateThreadPool();
                 return data;
             }
             else return null;
         }
 
 
+        private List<InstModel> CreateThreadPool()
+        {
+            Thread[] _workers = new Thread[usernames.Length];
+            List<InstModel> data = new List<InstModel>();
+            for (int i = 0; i < _workers.Length; i++)
+            {
+                int copy = i;
+                _workers[i] = new Thread(() => { data.AddRange(threadPool(usernames[copy])); });
+                _workers[i].Name = string.Format("Thread {0} :", i + 1);
+                _workers[i].Start();
+            }
+            foreach (Thread thread in _workers)
+            {
+                thread.Join();//синхронизация потоков
+            }
+            return data;
+        }
+
 
         private string commonUrl = "https://www.instagram.com/";
 
         private List<InstModel> threadPool(object objusername)
         {
-            String username = (String)objusername;
-            string htmlStr = ReadHtmlFile(commonUrl + username + @"/media/", Encoding.UTF8);
+            List<InstModel> data = new List<InstModel>();
+            string lastPostId = "0";
+            List<InstModel> _20posts = new List<InstModel>();
+            int i = 0;
+            do
+            {
+                _20posts = GetNext20Posts((string)objusername, lastPostId);
+                if (_20posts.Count!=0)
+                {
+                    data.AddRange(_20posts);
+                    lastPostId = _20posts[_20posts.Count - 1].info.postId;
+                }
+                else break;
+
+                i++;
+            }
+            while ( i < 6);
+
+            return data;
+        }
+
+
+        private List<InstModel> GetNext20Posts(String username, string lastPostId)
+        {
+           // string htmlStr = ReadHtmlFile(commonUrl + username + @"/media", Encoding.UTF8);
+            string htmlStr = ReadHtmlFile(commonUrl + username + @"/media/?max_id=" + lastPostId, Encoding.UTF8);
             Thread.Sleep(150);
             List<InstModel> data = new List<InstModel>();
             if (htmlStr != null)
@@ -85,7 +114,6 @@ namespace insta_001.Parser
             }
             return data;
         }
-
 
         private List<InstCommModel> getCommentsList(JArray jarrcomm)
         {

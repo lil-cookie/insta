@@ -39,24 +39,29 @@
     }
 </style>
 
-@foreach (insta_001.Models.InstModel data in Model)
-{
-    <div class="col-xs-6 post">
-        <div class="imgBlock">
-            <a href="@data.info.postLink">
-                <img class="img-circle" src="@data.info.picSrc" />
-            </a>
-            <a href="https://www.instagram.com/@data.info.postAuthor">@data.info.postAuthor</a>
-        </div>
-        <div class="commentBlock">
-            @foreach (insta_001.Models.InstCommModel comm in data.comments)
+<div style="width:100%;font-size:25pt;align:center;">
+    Загружено @Model.Count постов!
+</div>
+
+
+    @foreach (insta_001.Models.InstModel data in Model)
+    {
+        <div class="col-xs-6 post">
+            <div class="imgBlock">
+                <a href="@data.info.postLink">
+                    <img class="img-circle" src="@data.info.picSrc" />
+                </a>
+                <a href="https://www.instagram.com/@data.info.postAuthor">@data.info.postAuthor</a>
+            </div>
+            <div class="commentBlock">
+                @foreach (insta_001.Models.InstCommModel comm in data.comments)
                 {
-                <b><a href="https://www.instagram.com/@comm.author">@comm.author</a></b>
-                <br>
-                <span style="font-size: 10px;"> @comm.created </span>
-                <div> @comm.text</div>
-                <br>
-            }
+                    <b><a href="https://www.instagram.com/@comm.author">@comm.author</a></b>
+                    <br>
+                    <span style="font-size: 10px;"> @comm.created </span>
+                    <div> @comm.text</div>
+                    <br>
+                }
+            </div>
         </div>
-    </div>
-}
+    }

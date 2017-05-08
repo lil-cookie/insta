@@ -1,1 +1,9 @@
-wood_cotton babyfurniture 1sp.baby_name mojjevelovaya_busina mozhevelink ifonerkin mirbusinok furniturakids 
+wood_cotton
+babyfurniture1
+sp.baby_name
+mojjevelovaya_busina
+fonerkin
+mirbusinok
+furniturakids
+mozhevelinki
+eco_bysinki
