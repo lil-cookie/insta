@@ -10,39 +10,39 @@ namespace insta_001.Parser
 {
     public class FileWorker
     {
-   //     private static Mutex mut = new Mutex();
+        //     private static Mutex mut = new Mutex();
         public bool? WriteFile(string str, string filepath = @"~\Files\instUsernames.txt")
         {
             string path = HostingEnvironment.MapPath(filepath);
             //if (mut.WaitOne(1000))
-           // {
-                try
+            // {
+            try
+            {
+                if (File.Exists(path))
                 {
-                    if (File.Exists(path))
+                    string text = File.ReadAllText(path);
+                    List<string> usernames = text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray().ToList();
+                    File.SetAttributes(path, FileAttributes.Normal);
+                    if (usernames.Contains(str))
                     {
-                        string text = File.ReadAllText(path);
-                        List<string> usernames = text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray().ToList();
-                        File.SetAttributes(path, FileAttributes.Normal);
-                        if (usernames.Contains(str))
-                        {
-                            usernames.Remove(str);
-                            File.WriteAllText(path, String.Join("\r\n", usernames));
-                            //mut.ReleaseMutex();
-                            return false;
-                        }
-                        usernames.Add(str);
-                        File.WriteAllText(path, String.Join("\r\n", usernames));
-                      //  mut.ReleaseMutex();
-                        return true;
+                        usernames.Remove(str);
+                        File.WriteAllText(path, String.Join(" ", usernames));
+                        //mut.ReleaseMutex();
+                        return false;
                     }
+                    usernames.Add(str);
+                    File.WriteAllText(path, String.Join(" ", usernames));
+                    //  mut.ReleaseMutex();
+                    return true;
                 }
-                catch (Exception e)
-                {
-                    //mut.ReleaseMutex();
-                    return null;
-                }
-         //   }
-           // mut.ReleaseMutex();
+            }
+            catch (Exception e)
+            {
+                //mut.ReleaseMutex();
+                return null;
+            }
+            //   }
+            // mut.ReleaseMutex();
             return true;
         }
 
@@ -52,7 +52,7 @@ namespace insta_001.Parser
             string[] usernames = null;
             if (File.Exists(path))
             {
-                usernames = File.ReadAllText(path).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
+                usernames = File.ReadAllText(path).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
             }
             return usernames;
         }

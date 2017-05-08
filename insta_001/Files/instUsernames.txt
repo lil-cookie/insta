@@ -1,8 +1,1 @@
-wood_cotton
-babyfurniture1
-sp.baby_name
-mojjevelovaya_busina
-fonerkin
-mirbusinok
-furniturakids
-mozhevelinki
+wood_cotton babyfurniture1 sp.baby_name mojjevelovaya_busina fonerkin mirbusinok furniturakids mozhevelinki
