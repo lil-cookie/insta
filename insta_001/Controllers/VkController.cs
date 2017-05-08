@@ -15,7 +15,7 @@ namespace insta_001.Controllers
         {
             VkParser v = new VkParser();
             List<VkModel> vk = v.Main();
-
+            vk = vk.OrderByDescending(ev => ev.created).ToList();
             return View(vk);
         }
     }

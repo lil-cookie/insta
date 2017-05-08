@@ -9,12 +9,17 @@ namespace insta_001.Parser
 {
     public class VkParser : Parser
     {
-        string url = "https://vk.com/photos-95557674?act=comments";
+        string[] urls = { "https://vk.com/photos-95557674?act=comments", "https://vk.com/photos-136281644?act=comments" };
         public List<VkModel> Main()
         {
-            string htmlStr = ReadHtmlFile(url, Encoding.GetEncoding(1251));
-            List<VkModel> posts = GetComments(htmlStr);
-            return posts;
+            List<VkModel> allPosts = new List<VkModel>();
+            foreach (string url in urls)
+            {
+                string htmlStr = ReadHtmlFile(url, Encoding.GetEncoding(1251));
+                List<VkModel> posts = GetComments(htmlStr);
+                allPosts.AddRange(posts);
+            }
+            return allPosts;
         }
 
         private List<VkModel> GetComments(string html)
