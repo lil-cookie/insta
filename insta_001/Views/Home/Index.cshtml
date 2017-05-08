@@ -4,13 +4,15 @@
 }
 
 <p>You observe next instagram accounts:</p>
-@{
-    foreach (string user in @ViewBag.users)
-    {
-        <b>@user</b><br/>
+<b>
+    @{
+        foreach (string user in @ViewBag.users)
+        {
+            @user
+    <br />
+        }
     }
-}
-
+</b>
 <br />
 
 You can add/delete insagram user. Put username below.
