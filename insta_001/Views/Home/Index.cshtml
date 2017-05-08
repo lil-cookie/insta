@@ -14,23 +14,20 @@
 <br />
 
 You can add/delete insagram user. Put username below.
+<div>
+    @using (Ajax.BeginForm("AjaxUpdate", new AjaxOptions
+    { UpdateTargetId = "update" }))
+    {
+        string user = "";
+        <p> Username : </p>    @Html.EditorFor(x => user)
+        <input type="submit" value="Submit" />
+    }
 
-@using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "result"}))
-{
-    string user = "";
-    <p> Username : </p>   @Html.EditorFor(x => user)
-    <input type="submit" value="Submit" />
-}
+<div id="update">
+</div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/ajax")
 
 
-
-@{
-       if (@ViewBag.username != null)
-       {
-           if (@ViewBag.upd == false)
-           { <p>User <b>@ViewBag.username</b> deleted. </p>}
-           else
-           { <p>User <b>@ViewBag.username</b> added. </p>}
-       }
-   }
 

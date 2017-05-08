@@ -43,13 +43,13 @@ namespace insta_001.Parser
                 return data;
             }
             else return null;
-
-
         }
+
+
 
         private string commonUrl = "https://www.instagram.com/";
 
-        public List<InstModel> threadPool(object objusername)
+        private List<InstModel> threadPool(object objusername)
         {
             String username = (String)objusername;
             string htmlStr = ReadHtmlFile(commonUrl + username + @"/media/", Encoding.UTF8);
@@ -65,37 +65,82 @@ namespace insta_001.Parser
                 JArray jarr = JArray.Parse(node);
                 foreach (JObject jnode in jarr)
                 {
+                    //проверяем, что у данного поста есть комментарии
                     string numComments = Convert.ToString(jnode.SelectToken("comments.count"));
                     if (numComments != "0")
                     {
-                        String postLink = Convert.ToString(jnode.SelectToken("code"));
-                        postLink = @"https://www.instagram.com/p/" + postLink + "/?taken-by=" + username;
-                        String picSrc = Convert.ToString(jnode.SelectToken("images.standard_resolution.url"));
-                        Int32 unixTime = Convert.ToInt32(jnode.SelectToken("created_time"));
-                        DateTime created = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
-                        InstPostModel post = new InstPostModel(postLink, picSrc, created, username);
+                        //заполняем информацию о посте в объект post
+                        InstPostModel post = getPostInfo(jnode, username);
 
+                        //получаем массив json-объектов, описывающих комментарии к посту
                         string nodecomm = Convert.ToString(jnode.SelectToken("comments.data"));
                         JArray jarrcomm = JArray.Parse(nodecomm);
 
-                        List<InstCommModel> coms = new List<InstCommModel>();
-                        foreach (JObject jc in jarrcomm)
-                        {
-                            try
-                            {
-                                String text = Convert.ToString(jc.SelectToken("text"));
-                                String author = Convert.ToString(jc.SelectToken("from.username"));
-                                Int32 unixTimeComm = Convert.ToInt32(jc.SelectToken("created_time"));
-                                DateTime createdComm = (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTimeComm);
-                                coms.Add(new InstCommModel(author, text, createdComm));
-                            }
-                            catch (Exception e) { }
-                        }
+                        //заполняем информацию о комментариях к данному посту в список объектов coms
+                        List<InstCommModel> coms = getCommentsList(jarrcomm);
+
                         data.Add(new InstModel(post, coms));
                     }
                 }
             }
             return data;
         }
+
+
+        private List<InstCommModel> getCommentsList(JArray jarrcomm)
+        {
+            List<InstCommModel> coms = new List<InstCommModel>();
+            foreach (JObject jc in jarrcomm)
+            {
+                try
+                {
+                    //заполняем информацию о, одном сомментарии к данному посту в объект comment
+                    InstCommModel comment = getCommentInfo(jc);
+                    coms.Add(comment);
+                }
+                catch (Exception e) { }
+            }
+            return coms;
+        }
+
+        private InstCommModel getCommentInfo(JObject jnode)
+        {
+            InstCommModel comment = new InstCommModel();
+            comment.text = Convert.ToString(jnode.SelectToken("text"));
+            comment.author = Convert.ToString(jnode.SelectToken("from.username"));
+            comment.created = getCreatedTime(jnode);
+            return comment;
+        }
+
+        private InstPostModel getPostInfo(JObject jnode, string username)
+        {
+            InstPostModel post = new InstPostModel();
+            post.postLink = getPostLink(jnode, username);
+            post.picSrc = getPostPicSrc(jnode);
+            post.created = getCreatedTime(jnode);
+            post.postId = getPostId(jnode);
+            post.postAuthor = username;
+            return post;
+        }
+
+        private DateTime getCreatedTime(JObject jnode)
+        {
+            Int32 unixTime = Convert.ToInt32(jnode.SelectToken("created_time"));
+            return (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
+        }
+        private string getPostId(JObject jnode)
+        {
+            return Convert.ToString(jnode.SelectToken("id"));
+        }
+        private string getPostPicSrc(JObject jnode)
+        {
+            return Convert.ToString(jnode.SelectToken("images.standard_resolution.url"));
+        }
+        private string getPostLink(JObject jnode, string username)
+        {
+            String postLink = Convert.ToString(jnode.SelectToken("code"));
+            return (@"https://www.instagram.com/p/" + postLink + "/?taken-by=" + username);
+        }
+
     }
 }

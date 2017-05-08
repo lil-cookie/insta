@@ -7,6 +7,9 @@ namespace insta_001.Models
 {
     public class InstPostModel
     {
+        public InstPostModel()
+        {}
+
         public InstPostModel(string postLink, string picSrc, DateTime created, string postAuthor)
         {
             this.created = created;
@@ -18,5 +21,6 @@ namespace insta_001.Models
         public string picSrc { get; set; }
         public DateTime created { get; set; }
         public String postAuthor { get; set; }
+        public string postId { get; set; }
     }
 }

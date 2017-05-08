@@ -7,6 +7,7 @@ namespace insta_001.Models
 {
     public partial  class InstCommModel
     {
+        public InstCommModel() { }
         public InstCommModel(string author, string text, DateTime created)
         {
 
