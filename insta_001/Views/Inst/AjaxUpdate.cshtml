@@ -1,0 +1,63 @@
+﻿@model List<insta_001.Models.InstModel>
+
+<style>
+    a {
+        font-size: 18px;
+    }
+
+    .imgBlock {
+        float: none;
+        width: 300px;
+        height: auto;
+    }
+
+        .imgBlock img {
+            width: 300px;
+            height: auto;
+        }
+
+    .commentBlock {
+        float: none;
+        width: 250px;
+    }
+
+    .post {
+        border: 1px solid #ccc;
+        vertical-align: top;
+        width: 330px;
+        margin: 10px;
+        float: left;
+        display: inline-block;
+    }
+
+    li {
+        display: inline;
+    }
+</style>
+
+<div style="width:100%;font-size:25pt;text-align:center;">
+    Загружено @Model.Count постов!
+</div>
+
+@foreach (insta_001.Models.InstModel data in Model)
+{
+    <div class="col-xs-6 post">
+        <div class="imgBlock">
+            <a href="@data.info.postLink">
+                <img class="img-circle" src="@data.info.picSrc" />
+            </a>
+            <a href="https://www.instagram.com/@data.info.postAuthor">@data.info.postAuthor</a>
+            <p style="font-size: 10px;"> @data.info.created </p>
+        </div>
+        <div class="commentBlock">
+            @foreach (insta_001.Models.InstCommModel comm in data.comments)
+                {
+                <b><a href="https://www.instagram.com/@comm.author">@comm.author</a></b>
+                    <br>
+                    <span style="font-size: 10px;"> @comm.created </span>
+                    <div> @comm.text</div>
+                    <br>
+            }
+        </div>
+    </div>
+}
