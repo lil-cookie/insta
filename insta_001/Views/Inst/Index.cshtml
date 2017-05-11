@@ -5,16 +5,12 @@
 }
 
 <script>
-    function onClick() {
-        $("#sort").toggleClass('active');
-
-        if ($("#sort").hasClass('active')) { 
+    function onChecked() {
+        if ($("#sort").is(':checked')) {
             SortByPostCreated();
-            $("#sort").val('отсортировать по комментариям');
         }
         else {
             SortByCommentCreated();
-            $("#sort").val('отсортировать по постам');
         }
     };
 
@@ -22,18 +18,17 @@
     function SortByPostCreated() {
         $.ajax({
             url: "@Url.Action("AjaxSortByPostCreated", "Inst", null, Request.Url.Scheme)",
-            type: "POST",
+            type: "GET",
             timeout: 20000,
             success: function (data) { alert("Посты отсортированы по дате создания"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
-           
         })
     };
 
     function SortByCommentCreated() {
         $.ajax({
             url: "@Url.Action("AjaxSortByCommCreated", "Inst", null, Request.Url.Scheme)",
-            type: "POST",
+            type: "GET",
             timeout: 20000,
             success: function (data) { alert("Посты отсортированы по дате последнего комментария"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
@@ -42,10 +37,10 @@
 
 </script>
 
-<div style="width:100%;text-align:right">
-    <input type="button" id="sort" onclick="onClick()" value="отсортировать по постам"/>
-</div>
 
+<div style="width:100%;text-align:right">
+    сортировка по дате создания поста <input type="checkbox" id="sort" onchange="onChecked()" />
+</div>
 
 <div id="preload">
     @Html.Partial("AjaxUpdate", Model)
