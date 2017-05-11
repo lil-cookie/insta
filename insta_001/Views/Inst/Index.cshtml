@@ -5,12 +5,16 @@
 }
 
 <script>
-    function onChecked() {
-        if ($("#cbSort").is(':checked')) {
+    function onClick() {
+        $("#sort").toggleClass('active');
+
+        if ($("#sort").hasClass('active')) { 
             SortByPostCreated();
+            $("#sort").val('отсортировать по комментариям');
         }
         else {
             SortByCommentCreated();
+            $("#sort").val('отсортировать по постам');
         }
     };
 
@@ -35,10 +39,10 @@
 
 </script>
 
-
 <div style="width:100%;text-align:right">
-    сортировка по дате создания поста <input type="checkbox" id="cbSort" onchange="onChecked()" />
+    <input type="button" id="sort" onclick="onClick()" value="отсортировать по постам"/>
 </div>
+
 
 <div id="preload">
     @Html.Partial("AjaxUpdate", Model)
