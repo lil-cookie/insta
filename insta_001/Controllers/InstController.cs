@@ -28,6 +28,8 @@ namespace insta_001.Controllers
             if (comms != null)
             {
                 comms = SortByCommCreated(comms);
+                ViewBag.AllPosts = comms.Count;
+                comms = comms.GetRange(0, 30);
                 return PartialView("Index", comms);
             }
 
@@ -42,7 +44,7 @@ namespace insta_001.Controllers
             InstParser p = new InstParser();
             comms = new List<InstModel>();
 
-            if (val2 == "? isMyAcc = True")
+            if (val2 == "?isMyAcc=True")
             {
                 comms = p.Main(true);
             }
@@ -52,9 +54,10 @@ namespace insta_001.Controllers
             }
             if (comms != null)
             {
-                comms = comms.Where(ev => ev.comments.Count() > 0).OrderByDescending(ev => ev.info.created).ToList();
+                comms = comms.Where(ev => ev.comments.Count() > 0).OrderByDescending(ev => ev.created).ToList();
             }
-
+            ViewBag.AllPosts = comms.Count;
+            comms = comms.GetRange(0, 30);
             return PartialView("AjaxUpdate", comms);
         }
 
@@ -66,7 +69,7 @@ namespace insta_001.Controllers
             InstParser p = new InstParser();
             comms = new List<InstModel>();
 
-            if (val2 == "? isMyAcc = True")
+            if (val2 == "?isMyAcc=True")
             {
                 comms = p.Main(true);
             }
@@ -75,6 +78,9 @@ namespace insta_001.Controllers
                 comms = p.Main();
             }
             comms = SortByCommCreated(comms);
+            ViewBag.AllPosts = comms.Count;
+            comms = comms.GetRange(0, 30);
+
             return PartialView("AjaxUpdate", comms);
         }
         public ActionResult GetInstDataJson(InstModel model)

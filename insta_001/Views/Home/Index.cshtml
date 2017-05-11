@@ -3,13 +3,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<p>You observe next instagram accounts:</p>
+<p>You observe next <b>@ViewBag.users.Length</b> instagram accounts:</p>
 <b>
     @{
         foreach (string user in @ViewBag.users)
         {
             @user
-    <br />
+            <br />
         }
     }
 </b>
@@ -26,6 +26,8 @@ You can add/delete insagram user. Put username below.
     }
 
 <div id="update">
+
+
 </div>
 </div>
 @Scripts.Render("~/bundles/jquery")

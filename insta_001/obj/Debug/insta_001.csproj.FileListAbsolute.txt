@@ -51,7 +51,6 @@ C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\Sys
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\System.Web.Webpages.Razor.xml
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\System.Web.Helpers.xml
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\bin\System.Web.Mvc.xml
-C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.g.resources
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.Properties.Resources.resources
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.csproj.GenerateResource.Cache
 C:\Users\Helen\Documents\Visual Studio 2015\Projects\insta_001\insta_001\obj\Debug\insta_001.dll

@@ -6,7 +6,7 @@
 
 <script>
     function onChecked() {
-        if ($("#cbSort").attr("checked") == 'checked') {
+        if ($("#cbSort").is(':checked')) {
             SortByPostCreated();
         }
         else {
@@ -19,7 +19,7 @@
         $.ajax({
             url: "@Url.Action("AjaxSortByPostCreated", "Inst", null, Request.Url.Scheme)",
             type: "POST",
-            success: function (data) { alert("Успешное выполнение"); $('#preload').html(data); },
+            success: function (data) { alert("Посты отсортированы по дате создания"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
         })
     };
@@ -28,7 +28,7 @@
         $.ajax({
             url: "@Url.Action("AjaxSortByCommCreated", "Inst", null, Request.Url.Scheme)",
             type: "POST",
-            success: function (data) { alert("Успешное выполнение"); $('#preload').html(data); },
+            success: function (data) { alert("Посты отсортированы по дате последнего комментария"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
         })
     };
@@ -37,7 +37,7 @@
 
 
 <div style="width:100%;text-align:right">
-    сортировка по дате создания поста <input type="checkbox" id="cbSort" checked="" onchange="onChecked()" />
+    сортировка по дате создания поста <input type="checkbox" id="cbSort" onchange="onChecked()" />
 </div>
 
 <div id="preload">

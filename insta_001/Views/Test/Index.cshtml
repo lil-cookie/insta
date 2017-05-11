@@ -42,25 +42,35 @@
 
     countryApp.controller('instaCtrl', function ($scope, $http) {
         $http({
-            url: "   https://api.myjson.com/bins/9gndp",
-
-            //url: "https://api.myjson.com/bins/dom25",
-            // url: "Url.Action("GetAllPosts", "Test", null, Request.Url.Scheme)",
+            //https://api.myjson.com/bins/lqud1
+            url: "@Url.Action("GetAllPosts", "Test", null, Request.Url.Scheme)",
             method: 'GET'
         }).then(function (response) {
-            $scope.data = response.data; console.log(response.data); //alert("Успешное выполнение");
+            $scope.data = response.data;
+            formateDate(response.data);
+            console.log(response.data); //alert("Успешное выполнение");
         }, function (error) {
             alert("Ошибка выполнения");
         });
 
     });
 
-
+    function formateDate(data) {
+        for (var i = 0; i < data.length; i++) {
+            data[i].created = new Date(data[i].created);
+            for (var j = 0; j < data[i].comments.length; j++) {
+                data[i].comments[j].created = new Date(data[i].created);
+             }
+        }
+        return data;
+    }
 
 </script>
 
 <div id="results" ng-app="instaApp" ng-controller="instaCtrl">
-
+    <div style="width:100%;font-size:25pt;text-align:center;">
+        Загружено {{data.length}} постов!
+    </div>
     <div ng-repeat="post in data" class="col-xs-6 post">
 
         <div class="imgBlock">
@@ -80,6 +90,5 @@
             <br>
 
         </div>
-
     </div>
 </div>

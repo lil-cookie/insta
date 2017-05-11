@@ -8,13 +8,13 @@ namespace insta_001.Models
     public partial  class InstCommModel
     {
         public InstCommModel() { }
-        public InstCommModel(string author, string text, DateTime created)
+      /*  public InstCommModel(string author, string text, int created)
         {
 
             this.author = author;
             this.text = text;
             this.created = created;
-        }
+        }*/
 
         public string author { get; set; }
         public string text { get; set; }

@@ -146,7 +146,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Files\instUsernames.txt" />
-    <Resource Include="Files\old.txt" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -941,8 +940,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\InstModel.cs" />
-    <Compile Include="Models\InstPostModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VkModel.cs" />
     <Compile Include="Parser\FileWorker.cs" />
     <Compile Include="Parser\InstParser.cs" />
@@ -973,7 +970,6 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Inst\AjaxUpdate.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\Test\AjaxUpdate.cshtml" />
     <Content Include="Scripts\version.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

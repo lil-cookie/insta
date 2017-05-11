@@ -13,6 +13,9 @@ namespace insta_001.Parser
                                     /*new string[] { "wood_cotton", "babyfurniture1", "sp.baby_name", "mojjevelovaya_busina","mozhevelinki","mirbusinok","fonerkin"};*/
                                     //wood_cotton babyfurniture1 sp.baby_name mojjevelovaya_busina mozhevelinki mirbusinok fonerkin
 
+        private int deep = 6;
+        string lastPostId = "0";
+
         public List<InstModel> Main(bool isMyAcc = false)
         {
             if (isMyAcc == true)
@@ -36,11 +39,16 @@ namespace insta_001.Parser
         private List<InstModel> CreateThreadPool()
         {
             Thread[] _workers = new Thread[usernames.Length];
+            InstParser[] _objInst = new InstParser[usernames.Length];
+            for (int i = 0; i < _objInst.Length; i++)
+            {
+                _objInst[i] = new InstParser();
+            }
             List<InstModel> data = new List<InstModel>();
             for (int i = 0; i < _workers.Length; i++)
             {
                 int copy = i;
-                _workers[i] = new Thread(() => { data.AddRange(threadPool(usernames[copy])); });
+                _workers[i] = new Thread(() => { data.AddRange(_objInst[copy].threadPool(usernames[copy])); });
                 _workers[i].Name = string.Format("Thread {0} :", i + 1);
                 _workers[i].Start();
             }
@@ -57,63 +65,79 @@ namespace insta_001.Parser
         private List<InstModel> threadPool(object objusername)
         {
             List<InstModel> data = new List<InstModel>();
-            string lastPostId = "0";
+            //string lastPostId = "0";
             List<InstModel> _20posts = new List<InstModel>();
             int i = 0;
             do
             {
                 _20posts = GetNext20Posts((string)objusername, lastPostId);
-                if (_20posts.Count!=0)
+                if (_20posts.Count != 0)
                 {
                     data.AddRange(_20posts);
-                    lastPostId = _20posts[_20posts.Count - 1].info.postId;
+                    lastPostId = _20posts[_20posts.Count - 1].postId;
                 }
                 else break;
 
                 i++;
             }
-            while ( i < 1);
+            while (i < deep);
 
             return data;
         }
 
+        private string GetLastCommId(JObject jnode)
+        {
+            string lastId = Convert.ToString(jnode.SelectTokens("text"));
+
+            return lastId;
+        }
 
         private List<InstModel> GetNext20Posts(String username, string lastPostId)
         {
-           // string htmlStr = ReadHtmlFile(commonUrl + username + @"/media", Encoding.UTF8);
-            string htmlStr = ReadHtmlFile(commonUrl + username + @"/media/?max_id=" + lastPostId, Encoding.UTF8);
-            Thread.Sleep(150);
+            // string htmlStr = ReadHtmlFile(commonUrl + username + @"/media", Encoding.UTF8);
             List<InstModel> data = new List<InstModel>();
-            if (htmlStr != null)
+            try
             {
-                string node = null;
-
-                JObject jo = JObject.Parse(htmlStr);
-                node = Convert.ToString(jo.SelectToken("items"));
-
-                JArray jarr = JArray.Parse(node);
-                foreach (JObject jnode in jarr)
+                string htmlStr = ReadHtmlFile(commonUrl + username + @"/media/?max_id=" + lastPostId, Encoding.UTF8);
+                Thread.Sleep(150);
+                if (htmlStr != null)
                 {
-                    //проверяем, что у данного поста есть комментарии
-                    string numComments = Convert.ToString(jnode.SelectToken("comments.count"));
-                    if (numComments != "0")
+                    string node = null;
+
+                    JObject jo = JObject.Parse(htmlStr);
+                    node = Convert.ToString(jo.SelectToken("items"));
+
+                    JArray jarr = JArray.Parse(node);
+                    foreach (JObject jnode in jarr)
                     {
-                        //заполняем информацию о посте в объект post
-                        InstPostModel post = getPostInfo(jnode, username);
+                        //проверяем, что у данного поста есть комментарии
+                        string numComments = Convert.ToString(jnode.SelectToken("comments.count"));
+                        if (numComments != "0")
+                        {
+                            //заполняем информацию о посте в объект post
+                            InstModel post = getPostInfo(jnode, username);
+                            // InstPostModel post = getPostInfo(jnode, username);
 
-                        //получаем массив json-объектов, описывающих комментарии к посту
-                        string nodecomm = Convert.ToString(jnode.SelectToken("comments.data"));
-                        JArray jarrcomm = JArray.Parse(nodecomm);
+                            //получаем массив json-объектов, описывающих комментарии к посту
+                            string nodecomm = Convert.ToString(jnode.SelectToken("comments.data"));
+                            JArray jarrcomm = JArray.Parse(nodecomm);
 
-                        //заполняем информацию о комментариях к данному посту в список объектов coms
-                        List<InstCommModel> coms = getCommentsList(jarrcomm);
+                            //заполняем информацию о комментариях к данному посту в список объектов coms
+                            post.comments = getCommentsList(jarrcomm);
 
-                        data.Add(new InstModel(post, coms));
+                            data.Add(post);
+                        }
                     }
+                    string lastId = getPostId((JObject)jarr.Last);
                 }
             }
+            catch (Exception e) { }
             return data;
         }
+
+
+
+
 
         private List<InstCommModel> getCommentsList(JArray jarrcomm)
         {
@@ -140,9 +164,10 @@ namespace insta_001.Parser
             return comment;
         }
 
-        private InstPostModel getPostInfo(JObject jnode, string username)
+        private InstModel getPostInfo(JObject jnode, string username)
         {
-            InstPostModel post = new InstPostModel();
+            InstModel post = new InstModel();
+            // InstPostModel post = new InstPostModel();
             post.postLink = getPostLink(jnode, username);
             post.picSrc = getPostPicSrc(jnode);
             post.created = getCreatedTime(jnode);
@@ -153,8 +178,10 @@ namespace insta_001.Parser
 
         private DateTime getCreatedTime(JObject jnode)
         {
-            Int32 unixTime = Convert.ToInt32(jnode.SelectToken("created_time"));
-            return (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
+            Int64 unixTime = Convert.ToInt64(jnode.SelectToken("created_time"));
+            // unixTime = unixTime * 1000;
+             return (new DateTime(1970, 1, 1, 0, 0, 0, 0)).AddSeconds(unixTime);
+           // return unixTime;
         }
         private string getPostId(JObject jnode)
         {

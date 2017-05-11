@@ -36,18 +36,18 @@
 </style>
 
 <div style="width:100%;font-size:25pt;text-align:center;">
-    Загружено @Model.Count постов!
+    Загружено @Model.Count первых постов из @ViewBag.AllPosts!
 </div>
 
 @foreach (insta_001.Models.InstModel data in Model)
 {
     <div class="col-xs-6 post">
         <div class="imgBlock">
-            <a href="@data.info.postLink">
-                <img class="img-circle" src="@data.info.picSrc" />
+            <a href="@data.postLink">
+                <img class="img-circle" src="@data.picSrc" />
             </a>
-            <a href="https://www.instagram.com/@data.info.postAuthor">@data.info.postAuthor</a>
-            <p style="font-size: 10px;"> @data.info.created </p>
+            <a href="https://www.instagram.com/@data.postAuthor">@data.postAuthor</a>
+            <p style="font-size: 10px;"> @data.created </p>
         </div>
         <div class="commentBlock">
             @foreach (insta_001.Models.InstCommModel comm in data.comments)

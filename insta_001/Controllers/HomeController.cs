@@ -22,21 +22,21 @@ namespace insta_001.Controllers
             FileWorker fw = new FileWorker();
             bool? upd = fw.WriteFile(user.Trim());
             string result;
-
+          
             if (upd == null)
             {
                 result = "Unforchenatly, error occurred during a operation. Try again.";
             }
             else if (upd==true)
             {
+
                 result = "User "+ user + " added.";
             }
             else
             {
                 result = "User " + user + " deleted.";
             }
-            fw = new FileWorker();
-            ViewBag.users = fw.ReadInstUsernames();
+            
             /*  if (Request.IsAjaxRequest())
               {
                   user = "rrrrrrrrrrr";
