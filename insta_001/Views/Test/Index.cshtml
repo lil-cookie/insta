@@ -32,51 +32,54 @@
         display: inline;
     }
 </style>
-
+@Scripts.Render("~/bundles/angular")
 <script>
+    var countryApp = angular.module("instaApp", []);
 
-    var allPosts = $.ajax({
-        url: "@Url.Action("GetAllPosts", "Test", null, Request.Url.Scheme)",
-        type: "POST",
-        success: function (data) { alert("Успешное выполнение"); OnSuccess(data);/*$('#preload').html(data);*/ },
-        error: function (e) { alert("Ошибка выполнения"); }
+    countryApp.config(['$compileProvider', function ($compileProvider) {
+        $compileProvider.debugInfoEnabled(false);
+    }]);
+
+    countryApp.controller('instaCtrl', function ($scope, $http) {
+        $http({
+            url: "   https://api.myjson.com/bins/9gndp",
+
+            //url: "https://api.myjson.com/bins/dom25",
+            // url: "Url.Action("GetAllPosts", "Test", null, Request.Url.Scheme)",
+            method: 'GET'
+        }).then(function (response) {
+            $scope.data = response.data; console.log(response.data); //alert("Успешное выполнение");
+        }, function (error) {
+            alert("Ошибка выполнения");
+        });
+
     });
-
-    function OnSuccess(data) {
-        // alert(allPosts.responseJSON[0].info.picSrc);
-        // alert(data[0].info.picSrc);
-        // alert(allPosts.responseJSON.Count);
-        var results = $('#results'); // получаем нужный элемент
-        results.empty(); //очищаем элемент
-        //  alert(data.length);
-        for (var i = 0; i < data.length; i++) {
-
-            //  results.append('<li>' + data[i].info.postAuthor + '</li>');
-            results.append('<div class="col-xs-6 post">' +
-                '<div class="imgBlock">' +
-           '<a href="' + data[i].info.postLink + '">' +
-               '<img class="img-circle" src="' + data[i].info.picSrc + '" />' +
-           '</a>' +
-           '<a href="https://www.instagram.com/' + data[i].info.postAuthor + '">' + data[i].info.postAuthor + '</a>' +
-           '<p style="font-size: 10px;">' + data[i].info.created + ' </p>' +
-       '</div>');
-            for (var j = 0; j < data[i].comments.length; j++) {
-                results.append('      <div class="commentBlock">' + ' <b><a href="https://www.instagram.com/' + data[i].comments[j].author + '">' +
-                data[i].comments[j].author + '</a></b>'+
-               '<br>' + '<span style="font-size: 10px;">' + data[i].comments[j].created + ' </span>'+
-             ' <div>' + data[i].comments[j].text + '</div><br></div>');
-            }
-            results.append('</div></div>');
-        }
-
-    };
 
 
 
 </script>
-<input type="submit" value="Поиск" onclick="ajaxClick()" />
-<br />
 
-<div id="results">
+<div id="results" ng-app="instaApp" ng-controller="instaCtrl">
 
+    <div ng-repeat="post in data" class="col-xs-6 post">
+
+        <div class="imgBlock">
+            <a href="{{post.postLink}}">
+                <img class="img-circle" src="{{post.picSrc}}" />
+            </a>
+            <a href="https://www.instagram.com/{{post.postAuthor}}"> {{post.postAuthor}}</a>
+            <p style="font-size: 10px;"> {{post.created}} </p>
+
+        </div>
+        <div class="commentBlock" ng-repeat="comm in post.comments">
+
+            <b><a href="https://www.instagram.com/{{comm.author}}">{{comm.author}}</a></b>
+            <br>
+            <span style="font-size: 10px;">{{comm.created}} </span>
+            <div>{{comm.text}}</div>
+            <br>
+
+        </div>
+
+    </div>
 </div>

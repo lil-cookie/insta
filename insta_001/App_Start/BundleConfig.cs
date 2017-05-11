@@ -9,14 +9,18 @@ namespace insta_001
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-3.1.1.js",
+                     //   "~/Scripts/jquery-3.1.1.js",
                          "~/Scripts/jquery-3.1.1.min.js"));
 
 
             bundles.Add(new ScriptBundle("~/bundles/ajax").Include(
-                        "~/Scripts/jquery.unobtrusive-ajax.js",
+                   //     "~/Scripts/jquery.unobtrusive-ajax.js",
                          "~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                     //   "~/Scripts/angular.js",
+                         "~/Scripts/angular.min.js"));
 
             /*
                          bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

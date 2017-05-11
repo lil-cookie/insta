@@ -1,4 +1,40 @@
-﻿/*
+﻿        /*
+        for (var i = 0; i < data.length; i++) {
+
+          results.append('<div class="col-xs-6 post">
+    ' +
+    '<div class="imgBlock">
+        ' +
+        '<a href="' + data[i].info.postLink + '">
+            ' +
+            '<img class="img-circle" src="' + data[i].info.picSrc + '" />' +
+            '
+        </a>' +
+        '<a href="https://www.instagram.com/' + data[i].info.postAuthor + '">' + data[i].info.postAuthor + '</a>' +
+        '<p style="font-size: 10px;">' + data[i].info.created + ' </p>' +
+        '
+    </div>');
+    for (var j = 0; j < data[i].comments.length; j++) {
+    results.append('      <div class="commentBlock">
+        ' + ' <b>
+            <a href="https://www.instagram.com/' + data[i].comments[j].author + '">
+                ' +
+                data[i].comments[j].author + '
+            </a>
+        </b>'+
+        '<br>' + '<span style="font-size: 10px;">' + data[i].comments[j].created + ' </span>'+
+        ' <div>' + data[i].comments[j].text + '</div><br>
+    </div>');
+    }
+    results.append('
+</div></div>');
+
+        }
+*/
+
+
+
+/*
 private List<InstCommModel> GetCommentsOnePost(String htmlString)
 {
     if (htmlString != "")
