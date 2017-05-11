@@ -23,8 +23,10 @@
         $.ajax({
             url: "@Url.Action("AjaxSortByPostCreated", "Inst", null, Request.Url.Scheme)",
             type: "POST",
+            timeout: 20000,
             success: function (data) { alert("Посты отсортированы по дате создания"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
+           
         })
     };
 
@@ -32,6 +34,7 @@
         $.ajax({
             url: "@Url.Action("AjaxSortByCommCreated", "Inst", null, Request.Url.Scheme)",
             type: "POST",
+            timeout: 20000,
             success: function (data) { alert("Посты отсортированы по дате последнего комментария"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
         })
