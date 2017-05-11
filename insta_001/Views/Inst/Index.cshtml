@@ -14,9 +14,10 @@
         }
     };
 
+
     function SortByPostCreated() {
         $.ajax({
-            url: "@Url.Action("AjaxSortByPostCreated", "Inst", Model, Request.Url.Scheme)",
+            url: "@Url.Action("AjaxSortByPostCreated", "Inst", null, Request.Url.Scheme)",
             type: "POST",
             success: function (data) { alert("Успешное выполнение"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
@@ -25,7 +26,7 @@
 
     function SortByCommentCreated() {
         $.ajax({
-            url: "@Url.Action("AjaxSortByCommCreated", "Inst", Model, Request.Url.Scheme)",
+            url: "@Url.Action("AjaxSortByCommCreated", "Inst", null, Request.Url.Scheme)",
             type: "POST",
             success: function (data) { alert("Успешное выполнение"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
@@ -35,9 +36,8 @@
 </script>
 
 
-
 <div style="width:100%;text-align:right">
-    сортировка по дате создания поста <input type="checkbox" id="cbSort" onchange="onChecked()" />
+    сортировка по дате создания поста <input type="checkbox" id="cbSort" checked="" onchange="onChecked()" />
 </div>
 
 <div id="preload">

@@ -164,7 +164,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\InstController.cs" />
-    <Compile Include="Controllers\SeoController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\VkController.cs" />
     <Compile Include="Models\InstCommModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -173,6 +173,7 @@
     </Compile>
     <Compile Include="Models\InstModel.cs" />
     <Compile Include="Models\InstPostModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VkModel.cs" />
     <Compile Include="Parser\FileWorker.cs" />
     <Compile Include="Parser\InstParser.cs" />
@@ -198,11 +199,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\Inst\Index.cshtml" />
     <Content Include="Views\Vk\Index.cshtml" />
-    <Content Include="Views\Seo\Index.cshtml" />
     <Content Include="Views\Home\AjaxUpdate.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Inst\AjaxUpdate.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\AjaxUpdate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

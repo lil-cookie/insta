@@ -35,27 +35,52 @@ namespace insta_001.Controllers
         }
 
         [HttpPost]
-        public ActionResult AjaxSortByPostCreated(List<InstModel> comms)
+        public ActionResult AjaxSortByPostCreated(List<InstModel> comms = null)
         {
-            var val = Request.Form;
-            var val2 = Request.Url;
+            var val2 = Request.UrlReferrer.Query;
 
+            InstParser p = new InstParser();
+            comms = new List<InstModel>();
 
+            if (val2 == "? isMyAcc = True")
+            {
+                comms = p.Main(true);
+            }
+            else
+            {
+                comms = p.Main();
+            }
             if (comms != null)
             {
-                comms = comms.Where(ev => ev.comments.Count > 0).OrderByDescending(ev => ev.info.created).ToList();
+                comms = comms.Where(ev => ev.comments.Count() > 0).OrderByDescending(ev => ev.info.created).ToList();
             }
+
             return PartialView("AjaxUpdate", comms);
         }
 
         [HttpPost]
-        public ActionResult AjaxSortByCommCreated(List<InstModel> comms)
+        public ActionResult AjaxSortByCommCreated(List<InstModel> comms = null)
         {
-            var val = Request.Form;
-            var val2 = Request.Url;
+            var val2 = Request.UrlReferrer.Query;
 
+            InstParser p = new InstParser();
+            comms = new List<InstModel>();
+
+            if (val2 == "? isMyAcc = True")
+            {
+                comms = p.Main(true);
+            }
+            else
+            {
+                comms = p.Main();
+            }
             comms = SortByCommCreated(comms);
             return PartialView("AjaxUpdate", comms);
+        }
+        public ActionResult GetInstDataJson(InstModel model)
+        {
+            return Json(model);
+            // return Json(new { success = true });
         }
 
 

@@ -1,0 +1,82 @@
+﻿<style>
+    a {
+        font-size: 18px;
+    }
+
+    .imgBlock {
+        float: none;
+        width: 300px;
+        height: auto;
+    }
+
+        .imgBlock img {
+            width: 300px;
+            height: auto;
+        }
+
+    .commentBlock {
+        float: none;
+        width: 250px;
+    }
+
+    .post {
+        border: 1px solid #ccc;
+        vertical-align: top;
+        width: 330px;
+        margin: 10px;
+        float: left;
+        display: inline-block;
+    }
+
+    li {
+        display: inline;
+    }
+</style>
+
+<script>
+
+    var allPosts = $.ajax({
+        url: "@Url.Action("GetAllPosts", "Test", null, Request.Url.Scheme)",
+        type: "POST",
+        success: function (data) { alert("Успешное выполнение"); OnSuccess(data);/*$('#preload').html(data);*/ },
+        error: function (e) { alert("Ошибка выполнения"); }
+    });
+
+    function OnSuccess(data) {
+        // alert(allPosts.responseJSON[0].info.picSrc);
+        // alert(data[0].info.picSrc);
+        // alert(allPosts.responseJSON.Count);
+        var results = $('#results'); // получаем нужный элемент
+        results.empty(); //очищаем элемент
+        //  alert(data.length);
+        for (var i = 0; i < data.length; i++) {
+
+            //  results.append('<li>' + data[i].info.postAuthor + '</li>');
+            results.append('<div class="col-xs-6 post">' +
+                '<div class="imgBlock">' +
+           '<a href="' + data[i].info.postLink + '">' +
+               '<img class="img-circle" src="' + data[i].info.picSrc + '" />' +
+           '</a>' +
+           '<a href="https://www.instagram.com/' + data[i].info.postAuthor + '">' + data[i].info.postAuthor + '</a>' +
+           '<p style="font-size: 10px;">' + data[i].info.created + ' </p>' +
+       '</div>');
+            for (var j = 0; j < data[i].comments.length; j++) {
+                results.append('      <div class="commentBlock">' + ' <b><a href="https://www.instagram.com/' + data[i].comments[j].author + '">' +
+                data[i].comments[j].author + '</a></b>'+
+               '<br>' + '<span style="font-size: 10px;">' + data[i].comments[j].created + ' </span>'+
+             ' <div>' + data[i].comments[j].text + '</div><br></div>');
+            }
+            results.append('</div></div>');
+        }
+
+    };
+
+
+
+</script>
+<input type="submit" value="Поиск" onclick="ajaxClick()" />
+<br />
+
+<div id="results">
+
+</div>

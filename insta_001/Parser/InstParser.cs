@@ -72,7 +72,7 @@ namespace insta_001.Parser
 
                 i++;
             }
-            while ( i < 6);
+            while ( i < 1);
 
             return data;
         }
