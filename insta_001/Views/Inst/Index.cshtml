@@ -17,8 +17,8 @@
 
     function SortByPostCreated() {
         $.ajax({
-            url: "@Url.Action("AjaxSortByPostCreated", "Inst", null, Request.Url.Scheme)",
-            type: "GET",
+            url: "@Url.Action("AjaxSortByPostCreated", "Inst", null, null)",
+            type: "POST",
             success: function (data) { alert("Посты отсортированы по дате создания"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
         })
@@ -26,8 +26,8 @@
 
     function SortByCommentCreated() {
         $.ajax({
-            url: "@Url.Action("AjaxSortByCommCreated", "Inst", null, Request.Url.Scheme)",
-            type: "GET",
+            url: "@Url.Action("AjaxSortByCommCreated", "Inst", null, null)",
+            type: "POST",
             success: function (data) { alert("Посты отсортированы по дате последнего комментария"); $('#preload').html(data); },
             error: function (e) { alert("Ошибка выполнения"); }
         })

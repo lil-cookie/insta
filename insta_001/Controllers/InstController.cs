@@ -35,7 +35,7 @@ namespace insta_001.Controllers
 
             else return PartialView(new List<InstModel>());
         }
-
+        [HttpPost]
         public ActionResult AjaxSortByPostCreated(List<InstModel> comms = null)
         {
             var val2 = Request.UrlReferrer.Query;
@@ -82,6 +82,8 @@ namespace insta_001.Controllers
 
             return PartialView("AjaxUpdate", comms);
         }
+
+        [HttpPost]
         public ActionResult GetInstDataJson(InstModel model)
         {
             return Json(model);
